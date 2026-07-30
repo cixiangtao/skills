@@ -1,4 +1,4 @@
-# Keep every skill private unless it is explicitly allowlisted below.
+# Keep every local agent asset private unless it is explicitly allowlisted below.
 /*
 
 # Repository files
@@ -10,7 +10,11 @@
 !/pnpm-lock.yaml
 !/scripts/
 
+# Enter the skill collection, but keep installed skills private by default.
+!/skills/
+/skills/*
+
 # Public skills
-!/commit-granularity/
-!/typescript/
-!/split-npm-github-readme/
+!/skills/commit-granularity/
+!/skills/typescript/
+!/skills/split-npm-github-readme/
