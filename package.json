@@ -1,5 +1,5 @@
 {
-  "name": "skill",
+  "name": "skills",
   "private": true,
   "scripts": {
     "check": "pnpm lint && pnpm format:check",

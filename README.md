@@ -1,4 +1,4 @@
-# skill
+# skills
 
 Personal, opinionated Agent Skills for repeatable development workflows.
 
