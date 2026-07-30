@@ -1,0 +1,29 @@
+{
+  "skill_name": "github-open-source-lifecycle",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "这个 React 组件库已经在 GitHub 上了，帮我正规化一下：增加 GitHub Pages 预览，把预览地址同步到 GitHub 项目描述、Website 和 package.json；npm 上只保留稳定的安装与使用说明，GitHub README 放完整文档；以后发包统一走 release-it。先本地改好并验证，不要提交和 push。",
+      "expected_output": "Audits the real repository and package root, implements only local authorized surfaces, connects Pages base/output with metadata and dual README, configures repository-specific release-it gates, validates build and tarball, and stops before commit, push, deployment, or publication.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "把这个 Python 库整理成正规的开源项目并发布 1.0.0 到 PyPI。README、License、Security、GitHub About、CI、tag 和 GitHub Release 都要完整；使用当前 pyproject.toml 的 hatchling，不要换构建工具。发布后从 PyPI 重新下载 wheel 验证。",
+      "expected_output": "Preserves hatchling, separates universal GitHub surfaces from Python packaging, validates wheel and sdist in a fresh environment, commits/tags/publishes only as authorized, reads GitHub metadata back, and independently downloads and verifies the PyPI wheel.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "分析一下这个 Rust CLI 距离正式开源和发版还缺什么。目前只要报告，不要改文件。它以后要同时发布 crates.io 和 GitHub Release 的 Linux/macOS/Windows 二进制。",
+      "expected_output": "Stays read-only, models the crate and multi-platform binary products separately, audits Cargo and GitHub/community/release surfaces, identifies signing/checksum and packaging requirements, and distinguishes recommendations from authorization.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "我们 Go 服务已经把镜像推到 GHCR 了，但生产环境还是旧版本。帮我检查发布链路，先诊断，不要改配置。",
+      "expected_output": "Treats image publication and deployment rollout as separate evidence layers, inspects immutable tags, manifests, Actions and deployment state read-only, and does not claim the service is released merely because GHCR has an image.",
+      "files": []
+    }
+  ]
+}

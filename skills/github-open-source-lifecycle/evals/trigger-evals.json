@@ -1,0 +1,82 @@
+[
+  {
+    "query": "把 /Users/me/code/atlas 这个 GitHub 项目整理成正规的开源项目，README、License、贡献指南、CI 和发版流程都检查一下",
+    "should_trigger": true
+  },
+  {
+    "query": "给这个 Python 包补齐 PyPI 发布、GitHub Release 和文档站，发布后还要验证 wheel",
+    "should_trigger": true
+  },
+  {
+    "query": "增加 GitHub Pages demo，并把地址同步到仓库描述、Website 和 package.json",
+    "should_trigger": true
+  },
+  {
+    "query": "这个 Rust CLI 准备开源了，帮我审计 crates.io、跨平台二进制、License 和 Security 是否完整",
+    "should_trigger": true
+  },
+  {
+    "query": "我们 Go module 要发 v2，检查 module path、tag、GitHub Release 和 GoReleaser",
+    "should_trigger": true
+  },
+  {
+    "query": "把旧文档站迁移到 GitHub Pages，确认新地址可用后再删除旧部署",
+    "should_trigger": true
+  },
+  {
+    "query": "帮我发布一个 beta 版本，同时核对 npm dist-tag、Git tag、GitHub Actions 和线上 demo",
+    "should_trigger": true
+  },
+  {
+    "query": "这个 Maven 多模块项目如何规范发布到中央仓库？先做 release readiness review",
+    "should_trigger": true
+  },
+  {
+    "query": "GHCR 里已经有镜像了但生产没更新，帮我梳理从 GitHub tag 到镜像再到部署的完整链路",
+    "should_trigger": true
+  },
+  {
+    "query": "我们扩展已经提交商店审核，帮我检查 GitHub Release、隐私政策、版本和公开状态是否一致",
+    "should_trigger": true
+  },
+  {
+    "query": "修复 src/parser.ts 第 42 行的空指针错误并补一个单测",
+    "should_trigger": false
+  },
+  {
+    "query": "review 一下 PR #183，重点看并发安全和错误处理",
+    "should_trigger": false
+  },
+  {
+    "query": "帮我创建一个 GitHub issue，记录设置页偶尔白屏的问题",
+    "should_trigger": false
+  },
+  {
+    "query": "当前修改提交一下，commit 颗粒度细一点，不要 push",
+    "should_trigger": false
+  },
+  {
+    "query": "解释一下 git rebase --onto 是怎么工作的",
+    "should_trigger": false
+  },
+  {
+    "query": "把 README 里的一个错别字改掉",
+    "should_trigger": false
+  },
+  {
+    "query": "GitHub Actions 的这个测试 job 为什么在 Windows 上失败？只诊断这个错误",
+    "should_trigger": false
+  },
+  {
+    "query": "把依赖 lodash 升级到最新版并修复类型报错",
+    "should_trigger": false
+  },
+  {
+    "query": "查询一下仓库里所有 open 状态、带 bug 标签的 issue",
+    "should_trigger": false
+  },
+  {
+    "query": "给这个函数补充 JSDoc，不需要动项目配置",
+    "should_trigger": false
+  }
+]
