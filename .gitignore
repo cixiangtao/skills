@@ -7,8 +7,5 @@
 
 # Public skills
 !/commit-granularity/
-!/commit-granularity/**
 !/typescript/
-!/typescript/**
 !/split-npm-github-readme/
-!/split-npm-github-readme/**
