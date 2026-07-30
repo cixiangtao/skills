@@ -1,0 +1,16 @@
+{
+  "name": "skill",
+  "private": true,
+  "scripts": {
+    "check": "pnpm lint && pnpm format:check",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "node scripts/oxlint-tracked.mjs --deny-warnings",
+    "lint:fix": "node scripts/oxlint-tracked.mjs --fix --deny-warnings"
+  },
+  "devDependencies": {
+    "oxfmt": "0.61.0",
+    "oxlint": "1.76.0"
+  },
+  "packageManager": "pnpm@10.34.5"
+}

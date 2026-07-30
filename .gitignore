@@ -3,7 +3,12 @@
 
 # Repository files
 !/.gitignore
+!/.oxfmtrc.json
+!/.oxlintrc.json
 !/README.md
+!/package.json
+!/pnpm-lock.yaml
+!/scripts/
 
 # Public skills
 !/commit-granularity/

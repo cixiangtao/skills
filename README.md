@@ -10,6 +10,15 @@ Personal, opinionated Agent Skills for repeatable development workflows.
 
 Each skill is self-contained in its own directory with a `SKILL.md` entrypoint. Copy the skill directories you want into the location supported by your agent.
 
+## Development
+
+Install dependencies with `pnpm install`, then use:
+
+- `pnpm format` to format tracked public files with Oxfmt.
+- `pnpm format:check` to check formatting without writing files.
+- `pnpm lint` to lint tracked JavaScript and TypeScript files with Oxlint.
+- `pnpm check` to run all read-only quality checks.
+
 ## Publishing policy
 
 This repository uses an explicit allowlist in `.gitignore`. Skills are private by default and appear in Git only after their directories are deliberately added to the allowlist.
