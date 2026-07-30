@@ -1,0 +1,14 @@
+# Keep every skill private unless it is explicitly allowlisted below.
+/*
+
+# Repository files
+!/.gitignore
+!/README.md
+
+# Public skills
+!/commit-granularity/
+!/commit-granularity/**
+!/typescript/
+!/typescript/**
+!/split-npm-github-readme/
+!/split-npm-github-readme/**
