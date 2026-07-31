@@ -1,20 +1,22 @@
 ---
 name: github-open-source-lifecycle
-description: "Audit, standardize, publish, release, and maintain GitHub open-source projects across ecosystems. Use this skill whenever the user asks to make a GitHub project 正规、规范、适合开源或可发布; prepare a repository for public use; add or migrate GitHub Pages or documentation hosting; synchronize GitHub About, homepage, topics, README, and package metadata; add LICENSE, CONTRIBUTING, SECURITY, issue or pull-request templates; establish CI, changelog, versioning, tags, GitHub Releases, or registry publishing; review release readiness; or coordinate an end-to-end release to npm, PyPI, crates.io, Maven, container registries, binaries, or other ecosystems. Also use it when the user requests one public-facing change, such as GitHub Pages or package publishing, that should be checked against the rest of the project's public delivery lifecycle. Do not use it for an isolated bug fix, ordinary code review, a single issue or pull request, or a simple commit/push with no project-lifecycle work."
+description: "Audit, standardize, publish, release, and maintain GitHub open-source projects across ecosystems. Use this skill when the user asks to make a repository 正规、规范、适合开源、发布就绪 or publicly coherent; review community files, repository policy, CI, documentation hosting, package metadata, versioning, tags, GitHub Releases, or registry/store publication as part of public readiness or release delivery; migrate a public hosting surface; or coordinate an end-to-end release. For a request limited to one public surface, check only that surface and its direct consistency dependencies, not the full governance lifecycle. Do not use it for isolated bug fixes, code/PR review, single issue operations, typo-only edits, isolated CI failure diagnosis, non-public metadata edits, dependency/version bumps without release intent, or simple commit/push tasks."
 ---
 
 # GitHub Open Source Lifecycle
 
-Make a GitHub project coherent across source, documentation, collaboration,
-delivery, and release surfaces. Apply a broad audit but a narrow execution
-scope: discover related gaps, implement only what the user authorized, and
-report the rest without silently expanding the task.
+Make a GitHub project coherent across the public surfaces that matter for its
+actual products and maturity. Right-size the work: perform a broad lifecycle
+audit only when the user asks for open-source readiness, release readiness, or
+an end-to-end review. For a localized request, inspect the requested surface
+and its direct dependencies, implement only the authorized scope, and avoid
+turning optional maturity improvements into defects.
 
 ## Operating principles
 
-1. Inspect before prescribing. Derive project type, products, branches, tools,
-   package roots, generated files, and public URLs from the repository and
-   remote state.
+1. Inspect before prescribing. Derive the relevant project type, products,
+   branches, tools, package roots, generated files, and public URLs from the
+   repository and, when the claim requires it, current remote state.
 2. Preserve project conventions. Prefer an existing valid release, CI, docs, or
    package strategy over replacing it with a fashionable template.
 3. Separate configuration from delivery. A workflow file is not a deployment;
@@ -24,55 +26,82 @@ report the rest without silently expanding the task.
 5. Keep secrets out of source, logs, commands shown to the user, and reports.
 6. Re-check current official documentation before changing version-sensitive
    third-party Actions, CLIs, registries, or platform configuration.
+7. Distinguish requirements from maturity improvements. Missing optional
+   ceremony is not a gap unless the project or user goal makes it relevant.
+8. Spend verification effort in proportion to the requested outcome and risk.
+   Do not run package, consumer, deployment, or publication checks for an
+   unrelated low-risk metadata change.
 
 ## 1. Establish intent and authorization
 
 Translate the request into a concrete finishing line. Use these boundaries:
 
-| Requested intent                        | Authorized work                                                            |
-| --------------------------------------- | -------------------------------------------------------------------------- |
-| Analyze, review, or advise              | Read-only audit and recommendations                                        |
-| Standardize, add, migrate, or configure | Local edits and proportional validation                                    |
-| Commit                                  | Focused commits, no push                                                   |
-| Push or publish repository changes      | Push and verify the remote branch/workflow                                 |
-| Deploy, go live, or publish docs        | Mutate hosting state and verify public URLs                                |
-| Release or publish a version            | Version, tag, push, publish, and verify the requested release surfaces     |
-| Delete or retire an old public surface  | Reconfirm the exact remote target immediately before irreversible deletion |
+| Requested intent                        | Authorized work                                                                                       |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Analyze, review, or advise              | Read-only audit and recommendations                                                                   |
+| Standardize, add, migrate, or configure | Local edits and proportional validation                                                               |
+| Update GitHub settings or About         | Change only the named remote fields and read those fields back                                        |
+| Commit                                  | Focused commits, no push                                                                              |
+| Push or publish repository changes      | Push and verify the remote branch/workflow                                                            |
+| Deploy, go live, or publish docs        | Mutate hosting state and verify public URLs                                                           |
+| Release or publish a version            | Perform and verify only the version, ref, and delivery mutations required by the named release target |
+| Delete or retire an old public surface  | Reconfirm the exact remote target immediately before irreversible deletion                            |
 
 Do not infer release authority from a request to add release tooling. Do not
 infer deletion authority from a hosting migration. Normal implementation steps
 inside the authorized local scope do not require repeated confirmation.
 
-If the request names only one public surface, inspect its dependencies and
-neighbors. For example, adding Pages should reveal whether GitHub About,
-README links, package metadata, or base paths would become inconsistent. Fix
-only authorized surfaces; list other inconsistencies as follow-up findings.
+Do not infer a GitHub Release, documentation deployment, registry publication,
+or extra delivery target merely because another release surface was requested.
+Explain any necessary implied mutation, such as pushing the tag required by a
+registry release, before executing it.
+
+If the request names only one public surface, inspect its direct consistency
+dependencies. For example, adding Pages should reveal whether base paths,
+README links, or the canonical public URL would become incorrect. Do not
+automatically audit unrelated governance, funding, release signing, or every
+repository setting. Fix only authorized surfaces and mention adjacent findings
+only when they can break or materially misrepresent the requested outcome.
 
 ## 2. Inspect the actual project
 
 Read repository instructions and preserve unrelated or user-owned worktree
-changes. Establish:
+changes. Always establish the minimum context needed to avoid acting on the
+wrong product or branch:
 
-- Git root, status, branch, upstream, remotes, default branch, and visibility;
-- repository owner/name plus current GitHub About description, Website, topics,
-  social preview, and enabled features;
-- languages, manifests, lockfiles, workspace/package roots, build outputs, and
-  generated files;
+- Git root, worktree state, branch, upstream, and remotes;
+- manifests, workspace/package roots, product type, version owner, and build or
+  generated-output boundaries;
+- existing conventions directly relevant to the request.
+
+For a broad lifecycle or release-readiness audit, additionally establish the
+applicable remote and public state:
+
+- default branch, visibility, GitHub About, relevant enabled features, and
+  repository policy;
 - install, format, lint, type-check, test, build, pack, docs, and release paths;
-- existing CI, Pages/docs hosting, release automation, registries, artifacts,
-  tags, and latest published versions;
-- README, license, contribution, support, security, governance, and templates;
-- active public URLs and stale hosting/configuration paths.
+- CI, documentation hosting, registries, artifacts, tags, Releases, and latest
+  published versions;
+- README, license, contribution, support, security, and relevant templates;
+- active public URLs and stale delivery paths.
 
-Use fast repository searches and read-only remote/API checks. Never assume the
-repository root is the package root in a monorepo.
+Inspect social preview, funding, citation, governance, CODEOWNERS, wiki,
+projects, or similar maturity surfaces only when the user asks for them or the
+project's community/product model makes them consequential.
+
+Use fast repository searches and read-only remote/API checks when current
+remote state matters and access is available. If an audit is explicitly local
+or remote access is unavailable, report that evidence boundary rather than
+treating unavailable settings as missing. Never assume the repository root is
+the package root in a monorepo.
 
 Read [project-models.md](references/project-models.md) after identifying the
-products and ecosystem. Read only the relevant ecosystem sections.
+products and ecosystem when broad readiness, packaging, or delivery details
+matter. Read only the relevant ecosystem sections.
 
 ## 3. Build the project model
 
-List what users can actually consume:
+For broad audits and release work, list what users can actually consume:
 
 - source repository or template;
 - library/package and its registry;
@@ -81,26 +110,29 @@ List what users can actually consume:
 - documentation, demo, website, or API reference;
 - GitHub tags, Releases, checksums, provenance, or attestations.
 
-For each product, record its source root, build command, artifact, version
-owner, delivery target, canonical URL, and verification method. This prevents a
-workspace root, demo app, or generated directory from being released by
-accident.
+For each product in scope, record its source root, artifact, version owner,
+delivery target, canonical URL, and verification method. Add the build command
+when build or delivery is in scope. A localized metadata task needs only a
+compact product boundary, not a full product matrix.
 
-Before editing, provide a compact decision:
+Before broad or externally mutating work, provide a compact decision:
 
 - current project model;
 - requested outcome and stopping point;
 - inconsistencies that must be fixed for that outcome;
-- optional improvements outside scope;
+- material optional improvements outside scope only when they would help the
+  user's stated goal;
 - risky, destructive, authenticated, or externally mutating steps.
 
-For a clear implementation request, proceed after this short orientation.
-Pause only when a missing choice would materially change the result.
+For a clear localized implementation request, proceed without forcing a
+lifecycle preamble. Pause only when a missing choice would materially change
+the result.
 
 ## 4. Standardize universal repository surfaces
 
 Use [github-surfaces.md](references/github-surfaces.md) for the applicable
-surface. Keep all canonical values aligned:
+surface. Keep canonical values semantically coherent without forcing
+audience-specific text to be identical:
 
 - GitHub About description, Website, topics, and repository visibility;
 - repository and package READMEs;
@@ -112,16 +144,34 @@ If the user literally asks for a site address in the GitHub description, place
 it in the description as well as the Website field. Do not reinterpret that
 wording as Website-only.
 
-Audit LICENSE, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, support guidance,
-issue/PR templates, CODEOWNERS, funding, citation, and social preview. Add only
-the files justified by project maturity and the user's scope. Do not invent a
-maintainer team, response SLA, governance process, or legal owner.
+Classify public-surface findings before reporting them:
 
-When GitHub Pages or another docs host is in scope, treat build configuration,
-workflow permissions, base paths, routing behavior, GitHub About, README links,
-custom domains, and public verification as one connected chain. Hosting
-migrations must keep the old surface until the new one is proven, unless the
-user explicitly accepts downtime.
+- **Blocking**: prevents the stated open-source or delivery outcome, creates a
+  legal contradiction or a major identity conflict that points users to the
+  wrong repository, package, version, or delivery target, breaks the consumable
+  product, leaks secrets, or materially misrepresents public state.
+- **Recommended**: materially improves safe contribution, support, security,
+  reproducibility, or enforcement for the project's actual collaboration and
+  release model.
+- **Optional**: maturity or discovery enhancements whose absence does not make
+  the project invalid, such as CODE_OF_CONDUCT for a project without a real
+  contributor community, CODEOWNERS for a sole maintainer, funding, citation,
+  governance, social preview, wiki, or Projects.
+
+LICENSE becomes blocking when the user wants an open-source project and the
+repository has no valid open-source grant or uses contradictory metadata.
+CONTRIBUTING, SECURITY, support guidance, issue/PR templates, branch policy,
+and release notes are conditional on contribution, security, collaboration,
+and release needs. Do not list optional items as missing by default, and do not
+invent a maintainer team, response SLA, governance process, legal owner, or
+license choice.
+
+When GitHub Pages or another docs host is in scope, inspect the parts of build
+configuration, permissions, base paths, routing, canonical URLs, and public
+verification that can affect that host. During migration, prefer keeping the
+old surface until the replacement is proven when this is feasible and the user
+has not accepted downtime; describe cost or platform constraints instead of
+treating zero-downtime overlap as universally possible.
 
 ## 5. Choose ecosystem-native release operations
 
@@ -143,39 +193,49 @@ Do not add release-it to non-Node projects merely for consistency. It may be a
 generic orchestrator, but ecosystem-native tooling and existing project
 conventions take priority.
 
-Every release design should make these explicit:
+Every real release design should make its core contract explicit:
 
 - version source and versioning policy;
 - release branch and clean-worktree expectations;
 - quality/build/package gate;
-- changelog or release-note source;
 - commit and tag format;
-- registry/repository access and prerelease channel;
-- GitHub Release and attached artifacts, if used;
-- signing, checksums, provenance, or notarization requirements;
-- rollback behavior and post-release verification.
+- intended delivery target and post-release verification.
+
+Evaluate the following only when applicable, and record "not used" or
+"not required" instead of manufacturing a gap:
+
+- changelog or release-note source when users need version history;
+- prerelease identifiers and moving channels when prereleases exist;
+- GitHub Releases and attached artifacts when they are part of the product;
+- trusted publishing, signing, checksums, provenance, SBOMs, or notarization
+  when supported or justified by ecosystem, artifact, threat model, or policy;
+- rollback and partial-failure recovery depth proportional to the number and
+  irreversibility of delivery surfaces.
 
 Keep dependency management separate from publishing authority. A repository may
 use one tool to install/build and another supported publisher to upload.
 
 ## 6. Validate progressively
 
-Read [verification.md](references/verification.md) and select the evidence
-layers matching the requested outcome.
+Read [verification.md](references/verification.md) and select only the evidence
+layers needed for the claim:
 
-At minimum:
+- For read-only audits, inspect source/config and current remote/public state
+  relevant to the findings. Do not run write-heavy generators merely to make
+  the audit look exhaustive.
+- For low-risk documentation or metadata edits, inspect the diff, resolve
+  links/schema where relevant, and run only cheap repository checks likely to
+  catch mistakes in those files.
+- For code, CI, build, or packaging changes, run the corresponding static,
+  test, build, or package checks.
+- For package or executable usability claims, inspect a real artifact and use
+  a fresh consumer when the change or requested readiness claim can affect
+  consumption.
+- After push, deployment, or publication, read the exact mutated remote or
+  public surfaces back independently.
 
-1. inspect the final diff and run repository formatting/static checks;
-2. run relevant tests and builds without racing shared output cleanup;
-3. inspect generated directories, archives, manifests, exports, binaries, or
-   images directly;
-4. use a fresh temporary consumer when package or executable usability matters;
-5. re-check worktree and index after hooks, generators, version bumps, or
-   release rollback;
-6. after push, read remote branch, tags, Actions, and GitHub metadata back;
-7. after deployment, verify public content and important deep/data endpoints;
-8. after publication, download the published artifact and verify registry
-   metadata, channels/dist-tags, identity, contents, and basic consumption.
+Re-check worktree/index after any command that may write files. Do not imply a
+higher evidence layer than the checks actually performed.
 
 Never describe a pending review, queued workflow, local artifact, or draft
 release as publicly available.
@@ -200,16 +260,18 @@ Before destructive remote cleanup:
 
 ## 8. Report the outcome
 
-Lead with the achieved public outcome and exact stopping point. Report:
+Lead with the achieved outcome and exact stopping point. Keep the report
+proportional:
 
-- detected project model and products;
-- canonical repository, documentation, package, release, and support URLs;
-- changed surfaces and intentionally deferred recommendations;
-- local checks, artifact checks, remote checks, and public checks separately;
-- commit, push, workflow, deployment, registry, and review status separately;
-- authentication, review, signing, dashboard, or maintainer actions still
-  required;
-- preserved unrelated changes or pre-existing failures.
+- For audits, separate confirmed strengths, blocking gaps, recommended
+  improvements, and optional ideas. Omit empty categories and do not inflate
+  optional ideas into a compliance score.
+- For localized edits, report changed surfaces, relevant validation, and any
+  directly related deferred issue.
+- For releases or deployments, distinguish local validation, refs/commits,
+  workflow state, delivery state, public availability, and remaining human or
+  platform actions.
+- Mention preserved unrelated changes or pre-existing failures when relevant.
 
 Call the project ready, live, released, or published only when the corresponding
 evidence in [verification.md](references/verification.md) has passed.

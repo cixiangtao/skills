@@ -5,21 +5,23 @@ containers, or store submissions.
 
 ## Release contract
 
-Write down the contract before changing tools:
+Write down the core contract before changing release tools. Mark conditional
+concerns as not used or not required rather than treating every empty cell as a
+gap:
 
-| Concern        | Decision                                                                  |
-| -------------- | ------------------------------------------------------------------------- |
-| Version owner  | Manifest/file/workspace that owns the public version                      |
-| Version policy | SemVer, calendar versioning, ecosystem convention, or existing policy     |
-| Release source | Branch and commit expected to be released                                 |
-| Gate           | Checks, tests, builds, generated drift, packaging, smoke tests            |
-| Notes          | Changelog, conventional commits, curated notes, or GitHub-generated notes |
-| Git            | Release commit, tag pattern, push behavior                                |
-| Delivery       | Registry, GitHub Release, docs/site, image, store, update feed            |
-| Prerelease     | Identifier and channel/tag behavior                                       |
-| Security       | Credentials, trusted publishing, signing, provenance, checksums           |
-| Rollback       | Tool rollback behavior and manual recovery boundary                       |
-| Verification   | Independent remote/artifact/public checks                                 |
+| Concern        | Decision                                                                                                                |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Version owner  | Manifest/file/workspace that owns the public version                                                                    |
+| Version policy | SemVer, calendar versioning, ecosystem convention, or existing policy                                                   |
+| Release source | Branch and commit expected to be released                                                                               |
+| Gate           | Checks, tests, builds, generated drift, packaging, smoke tests                                                          |
+| Notes          | Changelog, conventional commits, curated notes, GitHub-generated notes, or not used when release notes are not promised |
+| Git            | Release commit, tag pattern, push behavior                                                                              |
+| Delivery       | Registry, GitHub Release, docs/site, image, store, update feed                                                          |
+| Prerelease     | Identifier and channel/tag behavior when prereleases exist                                                              |
+| Security       | Credential boundary plus trusted publishing, signing, provenance, or checksums when supported or required               |
+| Recovery       | Partial-failure boundary proportional to the number and irreversibility of delivery surfaces                            |
+| Verification   | Independent remote/artifact/public checks                                                                               |
 
 Adopt existing conventions unless they are broken or the user requests a
 migration. Avoid multiple tools owning the same version, changelog, or tag.
@@ -52,10 +54,12 @@ Do not create duplicate tags/releases when retrying a partially failed flow.
 
 ## Authentication and secrets
 
-Prefer supported trusted publishing or short-lived credentials. Keep real
-values out of repository files, terminal output copied into reports, workflow
-debug logs, and chat. Document variable names, source, purpose, and required
-permissions without recording secret values.
+Prefer supported trusted publishing or short-lived credentials when the
+ecosystem, account, or threat model justifies the setup. A maintained manual
+publisher can still be valid for a small project. Keep real values out of
+repository files, terminal output copied into reports, workflow debug logs, and
+chat. Document variable names, source, purpose, and required permissions
+without recording secret values.
 
 Browser authentication, OTP, signing hardware, notarization, organization
 approval, namespace ownership, and store review may require the user. Keep the
@@ -81,7 +85,8 @@ fully rolled back or that a timed-out push did nothing.
 
 ## Post-release verification
 
-Verify from outside the release process:
+Verify each in-scope surface from outside the release process. Skip surfaces
+the project does not use or claim:
 
 - remote branch and tag resolve to intended commits;
 - GitHub Release state/assets are correct when used;

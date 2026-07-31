@@ -1,7 +1,8 @@
 # Project models and ecosystem routing
 
 Read the universal matrix first, then only the sections matching the detected
-products.
+products. The evidence column describes release/readiness proof, not the
+minimum validation for every metadata or documentation edit.
 
 ## Universal product matrix
 
@@ -18,9 +19,11 @@ products.
 
 ## Node and npm
 
-Inspect every `package.json`, workspace declaration, lockfile, package-manager
-pin, publishable/private boundary, `files`, `exports`, types, side effects,
-license, repository metadata, and build output.
+For broad readiness or publishing work, inspect every relevant `package.json`,
+workspace declaration, lockfile, package-manager pin, publishable/private
+boundary, `files`, `exports`, types, side effects, license, repository metadata,
+and build output. For a localized task, inspect only the package roots and
+fields that can affect the requested surface.
 
 Use release-it when the repository wants an explicit interactive release
 orchestrator and its current workflow supports it. A robust setup usually
@@ -32,15 +35,17 @@ separates:
   publishing.
 
 Prefer release-it safeguards for the actual branch, clean worktree, quality
-hook, conventional release commit/tag, registry access, and explicit
-prerelease dist-tag. Treat dry runs as planning evidence only.
+hook, release commit/tag, and registry access. Require an explicit prerelease
+dist-tag only when the project publishes prereleases. Treat dry runs as
+planning evidence only.
 
 For npm/GitHub documentation separation, use the available
 `split-npm-github-readme` skill. Apply it at the real package root and inspect a
 real tarball. In monorepos, set `repository.directory` where appropriate.
 
-After publishing, verify version, dist-tags, provenance if configured, packed
-README, exports, types, and a fresh consumer import/command.
+After publishing, verify version and relevant dist-tags, provenance only when
+configured or claimed, packed public metadata and contracts, and a
+representative fresh consumer import or command.
 
 ## Python and PyPI
 
@@ -65,8 +70,9 @@ Inspect workspace members, publish flags, crate names, versions, feature flags,
 and binary/library outputs.
 
 Run the repository's format, lint, test, documentation, package, and publish
-checks. Inspect `cargo package` output and test the packaged crate where
-practical. Align crate version, Git tag, changelog, and GitHub Release.
+checks applicable to the requested outcome. Inspect `cargo package` output and
+test the packaged crate where practical. Align crate version and Git tag;
+align changelog and GitHub Release only when the project uses those surfaces.
 
 For distributable CLIs, decide whether platform binaries, checksums, signatures,
 install scripts, and cargo-binstall metadata are part of the release. Verify
@@ -83,8 +89,10 @@ must follow Go module path conventions. For CLIs, follow an existing GoReleaser
 or equivalent path when present rather than introducing a second release
 system.
 
-Test module consumption from a clean temporary module. For binaries, verify
-platform archives, checksums, version output, and GitHub Release assets.
+Test module consumption from a clean temporary module when release readiness or
+consumption is in scope. For binaries, verify platform archives, checksums,
+version output, and GitHub Release assets only for the delivery surfaces the
+project actually uses or claims.
 
 ## JVM, Maven, and Gradle
 

@@ -1,66 +1,80 @@
 # GitHub public surfaces
 
-Apply only the sections relevant to the requested outcome.
+Apply only the sections relevant to the requested outcome. Keep identity and
+URLs semantically coherent, but allow audience-specific descriptions and
+README depth. An empty optional field is not automatically a defect.
 
 ## GitHub About and discovery
 
 Keep the repository's public identity concise and consistent:
 
 - Description explains what the project is, not how it is implemented.
-- Website points to the canonical docs, demo, or product page when one exists.
+- Website points to the canonical docs, demo, or product page when one exists
+  and a separate URL helps users; leaving it empty can be valid when the
+  repository itself is canonical.
 - If the user explicitly asks for the URL inside Description, include it there
   too; do not substitute Website silently.
 - Topics reflect the product, ecosystem, and primary use cases without keyword
   stuffing.
 - Visibility and enabled features match the intended collaboration model.
-- Social preview is readable at small sizes and does not expose private data.
+- Social preview is worth reviewing when discovery or branding is in scope;
+  the default GitHub preview is acceptable for many small projects.
 
-After mutation, read Description, Website, topics, visibility, and default
-branch back through GitHub rather than trusting the local plan.
+After mutation, read the exact fields changed and any identity fields that
+directly depend on them back through GitHub rather than trusting the local
+plan.
 
 ## README and documentation
 
 Ground documentation in actual exports, commands, configuration, behavior, and
-support boundaries. A useful repository README normally answers:
+support boundaries. A useful repository README normally answers the applicable
+questions:
 
 - what the project does and why it exists;
 - maturity/status and important platform constraints;
 - install or bootstrap path;
 - smallest working example;
 - links to full docs/demo/API reference;
-- development and contribution path;
-- support/security/reporting path;
-- license and release/channel expectations.
+- development and contribution path when external contribution is expected;
+- support/security/reporting path when the project accepts reports;
+- license and release/channel expectations relevant to users.
 
 Resolve links from the file's real directory. Do not use repository-relative
 links in registry READMEs that render outside GitHub unless that registry
 supports them.
 
-For npm packages that need a stable compact registry README and richer GitHub
-documentation, use `.github/README.md` for GitHub and the package-root
-`README.md` for npm. Use the dedicated split skill and verify a packed tarball.
-Do not generalize this GitHub-specific layout to other hosts or registries.
+For npm packages that intentionally need a stable compact registry README and a
+richer GitHub README, `.github/README.md` plus the package-root `README.md` is
+one valid design. Do not require the split for every package. When changing the
+split or preparing publication, use the dedicated split skill and inspect the
+packed README. Do not generalize this GitHub-specific layout to other hosts or
+registries.
 
 ## License and community health
 
-Audit these files and GitHub settings:
+Classify these surfaces by the project's stated goal:
 
-- LICENSE and manifest license identifiers;
-- CONTRIBUTING and local development instructions;
-- SECURITY and private vulnerability reporting path;
-- CODE_OF_CONDUCT when a real community needs it;
-- SUPPORT or clear issue/discussion boundaries;
-- issue forms/templates and pull-request template;
-- CODEOWNERS for real maintainers;
-- funding, citation, governance, and roadmap when applicable.
+- **Blocking for open-source readiness:** a valid license grant and consistent
+  manifest/license metadata.
+- **Recommended when applicable:** CONTRIBUTING for external contributions,
+  SECURITY or another private vulnerability path for maintained software,
+  SUPPORT or clear issue/discussion boundaries, and templates that reduce
+  recurring triage ambiguity.
+- **Optional by maturity:** CODE_OF_CONDUCT for a real contributor community,
+  CODEOWNERS for actual maintainers, funding, citation, governance, roadmap,
+  and community-profile completeness scores.
+
+Do not use GitHub's community-profile percentage as a universal compliance
+score. It measures presence of conventional files, not whether each file is
+necessary or truthful for the project.
 
 Do not generate empty ceremony. Every named contact, team, policy, SLA, branch,
 or command must exist or be confirmed by the user.
 
 ## CI and repository policy
 
-CI should run the repository's actual reproducible gates using pinned runtime
-and package-manager policy. Consider:
+CI should enforce the repository's actual public claims and reproducible gates
+using its runtime and package-manager policy. Consider only applicable items:
 
 - formatting/lint/static analysis;
 - unit/integration/platform tests;
@@ -68,7 +82,8 @@ and package-manager policy. Consider:
 - generated-output drift;
 - dependency and secret/security scanning;
 - artifact retention and release-only jobs;
-- branch protection or rulesets.
+- branch protection or rulesets when collaboration or policy requires CI to
+  block merges or direct pushes.
 
 Do not claim protections are active from workflow files alone. Read the remote
 settings when policy configuration is in scope.

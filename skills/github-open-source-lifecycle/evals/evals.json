@@ -16,13 +16,31 @@
     {
       "id": 3,
       "prompt": "分析一下这个 Rust CLI 距离正式开源和发版还缺什么。目前只要报告，不要改文件。它以后要同时发布 crates.io 和 GitHub Release 的 Linux/macOS/Windows 二进制。",
-      "expected_output": "Stays read-only, models the crate and multi-platform binary products separately, audits Cargo and GitHub/community/release surfaces, identifies signing/checksum and packaging requirements, and distinguishes recommendations from authorization.",
+      "expected_output": "Stays read-only, models the crate and multi-platform binary products separately, audits Cargo and the named GitHub/community/release surfaces, evaluates whether signing and checksums are applicable, identifies real packaging requirements, and distinguishes recommendations from authorization.",
       "files": []
     },
     {
       "id": 4,
       "prompt": "我们 Go 服务已经把镜像推到 GHCR 了，但生产环境还是旧版本。帮我检查发布链路，先诊断，不要改配置。",
       "expected_output": "Treats image publication and deployment rollout as separate evidence layers, inspects immutable tags, manifests, Actions and deployment state read-only, and does not claim the service is released merely because GHCR has an image.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "这是我一个人维护的小型 npm 插件。先只读检查它能不能算开源，别为了凑 GitHub Community Profile 分数把 CODEOWNERS、Funding、Citation、Wiki 之类都列成缺口。",
+      "expected_output": "Identifies true blockers such as missing or contradictory license metadata and evidence-backed product or release issues, separates recommended security and contribution improvements from optional maturity features, does not use community-profile percentage as compliance, and remains read-only.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "只把这个仓库的 GitHub About Website 改成现有文档站地址，并同步 README 里已经过期的文档链接。检查直接相关的配置就行，不要扩展成完整开源治理改造，不要发布。",
+      "expected_output": "Inspects the canonical documentation URL and directly dependent README or package metadata, edits only authorized local or remote surfaces, validates links and remote readback as applicable, and does not audit or recommend unrelated governance, signing, release, funding, or community files.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "本地分析这个库的发布准备情况，但我现在没登录 GitHub，也不希望运行会重写 dist 的命令。把能确认的和远端无法确认的分开。",
+      "expected_output": "Uses local source and configuration evidence without treating unavailable GitHub settings as missing, avoids write-heavy validation, identifies the evidence boundary clearly, and labels package or public conclusions as unverified rather than failed.",
       "files": []
     }
   ]

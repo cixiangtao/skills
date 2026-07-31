@@ -1,4 +1,4 @@
 interface:
   display_name: "GitHub Open Source Lifecycle"
   short_description: "Standardize and release open-source projects"
-  default_prompt: "Use $github-open-source-lifecycle to audit this project's public lifecycle, implement only the authorized scope, and verify each claimed delivery surface."
+  default_prompt: "Use $github-open-source-lifecycle to right-size this project's public lifecycle work to the requested scope, separate blocking gaps from recommended and optional improvements, implement only authorized changes, and verify only the delivery surfaces claimed."

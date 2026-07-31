@@ -15,11 +15,29 @@ cannot prove higher-layer claims.
 | Delivery | Registry/host/store accepted the artifact       | Registry metadata, deployment/store state         |
 | Public   | Users can access the expected result            | Download/fetch/install from public surface        |
 
+## Proportional selection
+
+Do not climb the evidence ladder merely because a higher layer exists:
+
+| Requested outcome                   | Typical evidence ceiling                                               |
+| ----------------------------------- | ---------------------------------------------------------------------- |
+| Read-only local audit               | Source/static inspection; remote facts explicitly left unverified      |
+| README/About/template metadata edit | Source plus link/schema/format checks; remote readback only if mutated |
+| CI/build/package configuration      | Static/test/build/package layers affected by the change                |
+| Package or executable readiness     | Package and representative consumer proof                              |
+| Push or remote settings mutation    | Remote readback of the exact refs/settings changed                     |
+| Deployment or registry publication  | Delivery plus public verification of the named target                  |
+
+Skip write-heavy checks during an explicitly read-only audit unless the user
+allows temporary artifacts and the check is necessary to establish a material
+finding. State the evidence boundary instead of calling an unavailable or
+unrequested higher layer a failure.
+
 ## Source and static checks
 
 - Inspect complete status and diff before and after changes.
 - Preserve unrelated edits and generated ownership boundaries.
-- Run `git diff --check`.
+- Run `git diff --check` after edits or when a diff is part of the audit.
 - Use the repository's pinned toolchain and real scripts.
 - Recheck status after formatters, hooks, generators, release rollback, or
   version commands.
@@ -34,9 +52,11 @@ cannot prove higher-layer claims.
 
 ## Consumer checks
 
-Create a fresh temporary location outside the repository. Install from the
-packed artifact using the ecosystem's normal consumer path, then exercise the
-smallest representative import, command, bootstrap, or startup.
+When package or executable usability is part of the requested claim or affected
+by the change, create a fresh temporary location outside the repository.
+Install from the packed artifact using the ecosystem's normal consumer path,
+then exercise the smallest representative import, command, bootstrap, or
+startup.
 
 Do not let workspace linking, local caches, or undeclared source files make the
 smoke test pass accidentally.

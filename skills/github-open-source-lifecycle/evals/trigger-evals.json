@@ -40,6 +40,10 @@
     "should_trigger": true
   },
   {
+    "query": "只把 GitHub About 的 Website 换成现在的文档站，并同步 README 里直接相关的旧链接，别扩成完整治理改造",
+    "should_trigger": true
+  },
+  {
     "query": "修复 src/parser.ts 第 42 行的空指针错误并补一个单测",
     "should_trigger": false
   },
@@ -77,6 +81,14 @@
   },
   {
     "query": "给这个函数补充 JSDoc，不需要动项目配置",
+    "should_trigger": false
+  },
+  {
+    "query": "package.json 里 private 字段写错了，改成 true 就行，不涉及发布",
+    "should_trigger": false
+  },
+  {
+    "query": "把版本号从 1.2.3 改成 1.2.4，先不要 tag、发布或调整 release 流程",
     "should_trigger": false
   }
 ]
