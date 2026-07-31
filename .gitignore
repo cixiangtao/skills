@@ -9,6 +9,9 @@
 !/package.json
 !/pnpm-lock.yaml
 !/scripts/
+!/.github/
+/.github/*
+!/.github/README.md
 
 # Enter the skill collection, but keep installed skills private by default.
 !/skills/
