@@ -34,13 +34,19 @@
     {
       "id": 6,
       "prompt": "只把这个仓库的 GitHub About Website 改成现有文档站地址，并同步 README 里已经过期的文档链接。检查直接相关的配置就行，不要扩展成完整开源治理改造，不要发布。",
-      "expected_output": "Inspects the canonical documentation URL and directly dependent README or package metadata, edits only authorized local or remote surfaces, validates links and remote readback as applicable, and does not audit or recommend unrelated governance, signing, release, funding, or community files.",
+      "expected_output": "Inspects the canonical documentation URL and directly dependent README or package metadata, edits only authorized local or remote surfaces, validates links and remote readback as applicable, does not ask about language strategy for this mechanical link-only task, and does not audit or recommend unrelated governance, signing, release, funding, or community files.",
       "files": []
     },
     {
       "id": 7,
       "prompt": "本地分析这个库的发布准备情况，但我现在没登录 GitHub，也不希望运行会重写 dist 的命令。把能确认的和远端无法确认的分开。",
       "expected_output": "Uses local source and configuration evidence without treating unavailable GitHub settings as missing, avoids write-heavy validation, identifies the evidence boundary clearly, and labels package or public conclusions as unverified rather than failed.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "把这个维护多年的 npm 项目整理成正式开源项目，并同步完善 README 和 GitHub Pages。现在 README 和 Pages 都是英文，我没有说明以后是否继续只维护英文。先确认会影响方案的关键选择，再开始修改。",
+      "expected_output": "Recognizes that consistently English existing content does not prove the user's intended future language strategy. Before editing, it asks one structured question that separates product localization from multilingual public documentation while confirming whether multiple languages are wanted, the primary and additional languages, and coverage of repository README, package README, Pages or documentation, and release notes. It identifies Pages locale routing and README language navigation as downstream consequences without assuming that product i18n and documentation languages must match.",
       "files": []
     }
   ]

@@ -99,6 +99,41 @@ Read [project-models.md](references/project-models.md) after identifying the
 products and ecosystem when broad readiness, packaging, or delivery details
 matter. Read only the relevant ecosystem sections.
 
+### Confirm the public language strategy
+
+For broad lifecycle standardization, open-source readiness, release readiness,
+or other work that can create, substantially rewrite, or synchronize
+user-facing public content, confirm the language strategy before editing unless
+the current request or an explicit applicable project instruction already
+states it. Existing content being consistently written in one language is
+evidence of the current state, not proof that the user wants to preserve that
+strategy. This applies to repository and package READMEs, Pages or other
+documentation sites, demo copy, release notes, and contributor-facing guidance.
+
+First inspect the existing language conventions and the product's actual
+localization support so the question is grounded in the project. Then ask one
+structured question:
+
+> Should this project's public content support multiple languages? Separately,
+> does the product itself already support localization? Specify the primary
+> language, any additional languages, and which surfaces must be translated,
+> such as the repository README, package README, Pages or documentation site,
+> and release notes.
+
+Do not ask for a localized task that only corrects a URL, typo, metadata value,
+or build plumbing and does not change the language or editorial structure of
+public content.
+
+Treat product localization and multilingual documentation as separate choices;
+do not infer either one from the other. Apply the answer across the public
+surfaces in scope. For a multilingual Pages or documentation site, account for
+the default locale, routes, language navigation, fallback behavior, and
+canonical or alternate-language metadata. For multiple READMEs, make the
+primary entry point, language links, package-facing document, and translation
+maintenance expectations explicit. Keep single-value surfaces such as GitHub
+About understandable in the chosen primary language instead of inventing a
+multilingual format they cannot represent cleanly.
+
 ## 3. Build the project model
 
 For broad audits and release work, list what users can actually consume:
