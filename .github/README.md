@@ -9,6 +9,7 @@
 | Skill                                                                             | 解决的问题                                               | 典型使用场景                                                        |
 | --------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------- |
 | [`commit-granularity`](../skills/commit-granularity/SKILL.md)                     | 按业务或技术意图拆分 Git 提交                            | 提交代码、拆分混合变更、检查暂存区、修正过大的提交                  |
+| [`git-commit`](../skills/git-commit/SKILL.md)                                     | 分析差异并生成带类型 emoji 的 Conventional Commit        | 提交代码、选择 type/scope、按意图暂存、生成 commitlint 兼容提交信息 |
 | [`github-open-source-lifecycle`](../skills/github-open-source-lifecycle/SKILL.md) | 让 GitHub 开源项目的公开界面、交付方式和维护流程保持一致 | 开源规范化、发布准备、文档托管迁移、版本发布、公开仓库体检          |
 | [`typescript`](../skills/typescript/SKILL.md)                                     | 提供 TypeScript 类型安全、代码风格、文档和性能约定       | 编写或评审 `.ts`、`.tsx`、`.mts` 文件，设计类型安全 API，补充 JSDoc |
 | [`split-npm-github-readme`](../skills/split-npm-github-readme/SKILL.md)           | 分离 npm 包说明与 GitHub 完整文档                        | npm 页面只保留稳定简介和文档入口，GitHub 首页展示完整说明           |
@@ -29,6 +30,24 @@
 
 - 它负责保证提交颗粒度，不会把“提交代码”扩大解释为推送远端。
 - 它不会仅按文件数量拆分，也不会把无关改动为了减少提交数而强行合并。
+
+## `git-commit`
+
+根据仓库中的真实差异生成语义清晰、兼容 commitlint 的提交，并把对应 type 的 emoji 放在 subject 开头。
+
+核心能力：
+
+- 检查工作区、暂存区和仓库状态；已有暂存内容时优先分析 staged diff。
+- 从改动意图推导 type、scope 和简短描述，也允许用户显式覆盖这些字段。
+- 使用 `type(scope): emoji description` 格式，例如 `feat(auth): ✨ add passkey sign-in`，保留默认 Conventional Commit 解析结构。
+- 优先遵循仓库已有的 commitlint、Commitizen/cz 和 type-to-emoji 映射，没有项目约定时才使用内置映射。
+- 支持 breaking change 标记、正文、footer 和 issue 引用，并保持一个提交只承载一个逻辑意图。
+- 只暂存当前提交需要的文件，并在提交前排除环境变量、凭据、私钥等敏感内容。
+
+能力边界：
+
+- 不会修改 Git 配置、跳过提交钩子，也不会在没有明确授权时执行破坏性命令或强制推送。
+- 如果仓库钩子拒绝生成的提交信息，会明确报告冲突，而不是静默删除 emoji 或使用 `--no-verify`。
 
 ## `github-open-source-lifecycle`
 
