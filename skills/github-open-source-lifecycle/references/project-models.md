@@ -39,9 +39,20 @@ hook, release commit/tag, and registry access. Require an explicit prerelease
 dist-tag only when the project publishes prereleases. Treat dry runs as
 planning evidence only.
 
-For npm/GitHub documentation separation, use the available
-`split-npm-github-readme` skill. Apply it at the real package root and inspect a
-real tarball. In monorepos, set `repository.directory` where appropriate.
+When a publishable npm package is hosted in a GitHub repository, prefer
+separate registry and repository README surfaces by default. Use the available
+`split-npm-github-readme` skill rather than reproducing its migration steps:
+
+- if the repository root is also the package root, keep the full repository
+  documentation in `.github/README.md` and a compact npm-facing `README.md` at
+  the root;
+- if a package is published from a subdirectory, preserve the repository-level
+  README and keep the npm-facing README inside that package directory;
+- preserve an explicit decision to use one shared README, or an existing
+  publish-directory assembly that already separates the two audiences.
+
+Apply the decision at every real package root, inspect a real tarball, and set
+`repository.directory` where appropriate in monorepos.
 
 After publishing, verify version and relevant dist-tags, provenance only when
 configured or claimed, packed public metadata and contracts, and a

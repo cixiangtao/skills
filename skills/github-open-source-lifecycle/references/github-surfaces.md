@@ -43,12 +43,19 @@ Resolve links from the file's real directory. Do not use repository-relative
 links in registry READMEs that render outside GitHub unless that registry
 supports them.
 
-For npm packages that intentionally need a stable compact registry README and a
-richer GitHub README, `.github/README.md` plus the package-root `README.md` is
-one valid design. Do not require the split for every package. When changing the
-split or preparing publication, use the dedicated split skill and inspect the
-packed README. Do not generalize this GitHub-specific layout to other hosts or
-registries.
+For a publishable npm package hosted on GitHub, default toward a stable compact
+registry README and richer repository documentation. When the repository root
+is also the package root, `.github/README.md` plus the root `README.md` is the
+preferred structural layout. This is a strong default for the GitHub+npm
+combination, not a universal rule for other hosts or registries.
+
+Use the dedicated `split-npm-github-readme` skill when applying or validating
+the split, including packed README inspection. In monorepos, keep the npm README
+at the actual package root instead of moving unrelated repository docs. Preserve
+an explicit single-README decision and avoid introducing a split during an
+unrelated localized task. Classify an absent split as a recommended structural
+improvement, not a blocking open-source defect, unless the shared README creates
+broken package links or materially misrepresents one of the public surfaces.
 
 ## License and community health
 

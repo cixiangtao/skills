@@ -1,4 +1,4 @@
 interface:
   display_name: "Split npm and GitHub README"
   short_description: "Separate npm and GitHub package documentation"
-  default_prompt: "Use $split-npm-github-readme to keep npm README minimal while GitHub shows the full documentation."
+  default_prompt: "Use $split-npm-github-readme to keep npm README minimal while GitHub shows the full documentation, including when $github-open-source-lifecycle routes a GitHub-hosted npm package here."

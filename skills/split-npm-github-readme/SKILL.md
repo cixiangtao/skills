@@ -1,11 +1,23 @@
 ---
 name: split-npm-github-readme
-description: Separate npm package README content from GitHub repository documentation by keeping a minimal link-only README in the published package root and full documentation in .github/README.md. Use when users report stale npm documentation, want npm to link to live GitHub docs, ask npm and GitHub to preview different README files, or want to apply this README structure across npm packages.
+description: Separate npm package README content from GitHub repository documentation by keeping a minimal link-only README in the published package root and full documentation in .github/README.md. Use when users report stale npm documentation, want npm to link to live GitHub docs, ask npm and GitHub to preview different README files, want to apply this structure across npm packages, or when github-open-source-lifecycle finds a publishable npm package in a GitHub repository and no explicit single-README policy overrides the default split.
 ---
 
 # Split npm and GitHub README
 
 Use GitHub's documented README precedence (`.github`, repository root, then `docs`) together with npm's root-level package README behavior. Keep the implementation structural; do not add publish-time file swapping or staging scripts unless the repository cannot use this layout.
+
+## Relationship to lifecycle work
+
+`github-open-source-lifecycle` decides whether the project has both GitHub and
+npm documentation audiences and routes applicable work here. Keep the detailed
+layout, migration, and package verification procedure in this skill so the two
+skills cannot drift into separate implementations.
+
+For broad readiness or release work, treat the split as the default when a
+publishable npm package lives in a GitHub repository. Preserve an explicit
+single-README decision, and do not expand a localized task such as a typo or CI
+fix into a README migration.
 
 ## Inspect the repository
 

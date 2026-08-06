@@ -4,6 +4,10 @@
     "should_trigger": true
   },
   {
+    "query": "这个 GitHub 上的 Vite 插件也发 npm，帮我把两个公开页面的 README 和下一版发布准备一起整理好",
+    "should_trigger": true
+  },
+  {
     "query": "给这个 Python 包补齐 PyPI 发布、GitHub Release 和文档站，发布后还要验证 wheel",
     "should_trigger": true
   },

@@ -48,6 +48,24 @@
       "prompt": "把这个维护多年的 npm 项目整理成正式开源项目，并同步完善 README 和 GitHub Pages。现在 README 和 Pages 都是英文，我没有说明以后是否继续只维护英文。先确认会影响方案的关键选择，再开始修改。",
       "expected_output": "Recognizes that consistently English existing content does not prove the user's intended future language strategy. Before editing, it asks one structured question that separates product localization from multilingual public documentation while confirming whether multiple languages are wanted, the primary and additional languages, and coverage of repository README, package README, Pages or documentation, and release notes. It identifies Pages locale routing and README language navigation as downstream consequences without assuming that product i18n and documentation languages must match.",
       "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "这个 Vite 插件从 GitHub 仓库根目录发布到 npm。帮我把项目整理到适合开源和发布下一版的状态，我没有特别说明 README 应该怎么组织。先本地修改和验证，不要 commit、push 或 publish。",
+      "expected_output": "Treats GitHub repository readers and npm registry readers as separate audiences by default, invokes split-npm-github-readme, moves the complete repository documentation to .github/README.md, leaves a compact absolute-link README at the package root, validates the packed README and package contents, and stops before commit, push, or publication.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "整理这个 GitHub monorepo 的开源和 npm 发布结构。仓库根目录是产品总览，真正发布的包在 packages/core；保留根目录文档结构，先只做本地修改。",
+      "expected_output": "Identifies packages/core as the real npm package root, preserves the repository-level README instead of moving it to .github, keeps or creates the compact npm-facing README inside packages/core, uses repository.directory where appropriate, validates the actual package tarball, and makes no remote changes.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "这个 GitHub npm 包只需要修一下 CI 里 Node 版本的错误。README 继续共用一份，不要顺便整理文档或发布。",
+      "expected_output": "Respects the explicit single-README decision and localized CI scope, diagnoses or changes only the Node CI issue and its direct dependencies, and does not invoke a README migration, package release, or broader lifecycle work.",
+      "files": []
     }
   ]
 }
