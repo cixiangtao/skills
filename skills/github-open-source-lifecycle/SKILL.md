@@ -1,6 +1,6 @@
 ---
 name: github-open-source-lifecycle
-description: "Audit, standardize, publish, release, and maintain GitHub open-source projects across ecosystems. Use this skill when the user asks to make a repository 正规、规范、适合开源、发布就绪 or publicly coherent; review community files, repository policy, CI, documentation hosting, package metadata, versioning, tags, GitHub Releases, or registry/store publication as part of public readiness or release delivery; migrate a public hosting surface; or coordinate an end-to-end release. When a GitHub repository also publishes npm packages, default toward separate npm and GitHub README surfaces and route the implementation through the split-npm-github-readme skill. For a request limited to one public surface, check only that surface and its direct consistency dependencies, not the full governance lifecycle. Do not use it for isolated bug fixes, code/PR review, single issue operations, typo-only edits, isolated CI failure diagnosis, non-public metadata edits, dependency/version bumps without release intent, or simple commit/push tasks."
+description: "Audit, standardize, publish, release, and maintain GitHub open-source projects across ecosystems. Use when the user asks to make a repository 正规、规范、适合开源 or 发布就绪; review public documentation, community files, repository policy, CI, package metadata, versioning, GitHub Releases, or registry/store delivery; separate an npm package README from richer GitHub documentation, fix stale npm docs by linking to live GitHub documentation, or make npm and GitHub show different READMEs; migrate a public hosting surface; or coordinate an end-to-end release. For GitHub repositories that publish npm packages, prefer separate README surfaces after resolving the public language strategy and use the internal split workflow. For a localized request, inspect only the named surface and direct consistency dependencies. Do not use for isolated bug fixes, code/PR review, issue operations, typo-only edits, isolated CI diagnosis, non-public metadata edits, dependency/version bumps without release intent, or simple commit/push tasks."
 ---
 
 # GitHub Open Source Lifecycle
@@ -33,8 +33,9 @@ turning optional maturity improvements into defects.
    unrelated low-risk metadata change.
 9. Treat npm registry readers and GitHub repository readers as different
    audiences by default. When both surfaces exist, prefer separate READMEs and
-   delegate the layout and tarball checks to `split-npm-github-readme` instead
-   of duplicating that workflow here.
+   resolve the public language strategy before using the internal
+   [npm-github-readme-split.md](references/npm-github-readme-split.md) workflow
+   for layout and tarball checks.
 
 ## 1. Establish intent and authorization
 
@@ -181,11 +182,13 @@ audience-specific text to be identical:
 
 When the repository is hosted on GitHub and contains a publishable npm package,
 prefer a distinct package README and repository README even when the user did
-not explicitly request the split. Read and follow the available
-`split-npm-github-readme` skill for the actual package root, link adjustment,
-and packed-artifact verification. Preserve an explicit user or repository
-decision to maintain one shared README, and do not let this default expand an
-unrelated localized task into documentation restructuring.
+not explicitly request the split. After resolving the public language strategy
+when required, read and follow
+[npm-github-readme-split.md](references/npm-github-readme-split.md) for the
+actual package root, link adjustment, and packed-artifact verification.
+Preserve an explicit user or repository decision to maintain one shared README,
+and do not let this default expand an unrelated localized task into
+documentation restructuring.
 
 If the user literally asks for a site address in the GitHub description, place
 it in the description as well as the Website field. Do not reinterpret that

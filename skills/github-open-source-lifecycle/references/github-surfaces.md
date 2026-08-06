@@ -49,13 +49,15 @@ is also the package root, `.github/README.md` plus the root `README.md` is the
 preferred structural layout. This is a strong default for the GitHub+npm
 combination, not a universal rule for other hosts or registries.
 
-Use the dedicated `split-npm-github-readme` skill when applying or validating
-the split, including packed README inspection. In monorepos, keep the npm README
-at the actual package root instead of moving unrelated repository docs. Preserve
-an explicit single-README decision and avoid introducing a split during an
-unrelated localized task. Classify an absent split as a recommended structural
-improvement, not a blocking open-source defect, unless the shared README creates
-broken package links or materially misrepresents one of the public surfaces.
+After resolving the public language strategy when required, use
+[npm-github-readme-split.md](npm-github-readme-split.md) when applying or
+validating the split, including packed README inspection. In monorepos, keep
+the npm README at the actual package root instead of moving unrelated
+repository docs. Preserve an explicit single-README decision and avoid
+introducing a split during an unrelated localized task. Classify an absent
+split as a recommended structural improvement, not a blocking open-source
+defect, unless the shared README creates broken package links or materially
+misrepresents one of the public surfaces.
 
 ## License and community health
 

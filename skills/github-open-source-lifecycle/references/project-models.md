@@ -40,8 +40,10 @@ dist-tag only when the project publishes prereleases. Treat dry runs as
 planning evidence only.
 
 When a publishable npm package is hosted in a GitHub repository, prefer
-separate registry and repository README surfaces by default. Use the available
-`split-npm-github-readme` skill rather than reproducing its migration steps:
+separate registry and repository README surfaces by default. Resolve the
+public language strategy when required, then use
+[npm-github-readme-split.md](npm-github-readme-split.md) rather than
+reproducing its migration steps:
 
 - if the repository root is also the package root, keep the full repository
   documentation in `.github/README.md` and a compact npm-facing `README.md` at

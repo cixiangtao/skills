@@ -6,13 +6,12 @@
 
 ## 能力总览
 
-| Skill                                                                             | 解决的问题                                               | 典型使用场景                                                        |
-| --------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------- |
-| [`commit-granularity`](../skills/commit-granularity/SKILL.md)                     | 按业务或技术意图拆分 Git 提交                            | 提交代码、拆分混合变更、检查暂存区、修正过大的提交                  |
-| [`git-commit`](../skills/git-commit/SKILL.md)                                     | 分析差异并生成带类型 emoji 的 Conventional Commit        | 提交代码、选择 type/scope、按意图暂存、生成 commitlint 兼容提交信息 |
-| [`github-open-source-lifecycle`](../skills/github-open-source-lifecycle/SKILL.md) | 让 GitHub 开源项目的公开界面、交付方式和维护流程保持一致 | 开源规范化、发布准备、文档托管迁移、版本发布、公开仓库体检          |
-| [`typescript`](../skills/typescript/SKILL.md)                                     | 提供 TypeScript 类型安全、代码风格、文档和性能约定       | 编写或评审 `.ts`、`.tsx`、`.mts` 文件，设计类型安全 API，补充 JSDoc |
-| [`split-npm-github-readme`](../skills/split-npm-github-readme/SKILL.md)           | 分离 npm 包说明与 GitHub 完整文档                        | npm 页面只保留稳定简介和文档入口，GitHub 首页展示完整说明           |
+| Skill                                                                             | 解决的问题                                                                              | 典型使用场景                                                        |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [`commit-granularity`](../skills/commit-granularity/SKILL.md)                     | 按业务或技术意图拆分 Git 提交                                                           | 提交代码、拆分混合变更、检查暂存区、修正过大的提交                  |
+| [`git-commit`](../skills/git-commit/SKILL.md)                                     | 分析差异并生成带类型 emoji 的 Conventional Commit                                       | 提交代码、选择 type/scope、按意图暂存、生成 commitlint 兼容提交信息 |
+| [`github-open-source-lifecycle`](../skills/github-open-source-lifecycle/SKILL.md) | 让 GitHub 开源项目的公开界面、交付方式和维护流程保持一致，并内置 npm/GitHub README 分层 | 开源规范化、发布准备、文档拆分、托管迁移、版本发布、公开仓库体检    |
+| [`typescript`](../skills/typescript/SKILL.md)                                     | 提供 TypeScript 类型安全、代码风格、文档和性能约定                                      | 编写或评审 `.ts`、`.tsx`、`.mts` 文件，设计类型安全 API，补充 JSDoc |
 
 ## `commit-granularity`
 
@@ -58,6 +57,7 @@
 - 识别源码仓库、npm/PyPI/crates.io 等包、CLI、应用、容器、扩展、文档站和 GitHub Release 等真实交付面。
 - 检查 README、LICENSE、贡献与安全说明、GitHub About、包元数据、CI、文档托管、版本、标签和发布产物之间的一致性。
 - 根据请求控制审查范围：局部任务只检查目标界面及其直接依赖；开源或发布就绪任务才执行完整生命周期审查。
+- 在确认公开内容语言策略后，内部完成 npm 包 README 与 GitHub 仓库 README 的分层、链接迁移和真实 tarball 校验。
 - 使用 `Blocking`、`Recommended`、`Optional` 区分阻塞问题、重要改进和成熟度增强，避免把所有治理文件都当成硬性要求。
 - 尊重 Node、Python、Rust、Go、JVM、容器、桌面应用和扩展各自的原生构建与发布方式。
 - 按声明选择证据：源码与配置、本地产物、全新消费者验证、远端 API、公开下载结果分别证明不同层级的结论。
@@ -66,6 +66,7 @@
 能力边界：
 
 - 单个 README、CI 或元数据任务不会自动升级为全仓治理审计。
+- README 分层是 lifecycle 的内部工作流，不再作为独立 skill 入口；显式共用 README、非 GitHub 主机和无关机械修改不会被强制拆分。
 - 配置完成不等于已经部署，构建成功不等于已经发布；只有对应的公开状态验证通过后，才会声明“已上线”或“已发布”。
 - 分析请求默认只读；提交、推送、发布和删除需要用户给出对应授权。
 
@@ -87,23 +88,6 @@
 
 - 注释用于保存代码和类型无法清楚表达的契约，不会复述显而易见的实现。
 - 项目已有规范和自动格式化工具优先；skill 不负责用手工格式偏好替代项目工具链。
-
-## `split-npm-github-readme`
-
-利用 GitHub 与 npm 读取 README 的位置差异，让同一仓库面向不同读者展示合适的文档。
-
-核心能力：
-
-- 将完整 GitHub 文档放在 `.github/README.md`，把包根目录的 `README.md` 保持为稳定简介和唯一文档入口。
-- 从仓库元数据或 `origin` 推导链接，迁移文档时同步修正因目录变化而失效的相对链接和图片路径。
-- 适配从仓库根目录发布的包，也能识别 monorepo 中实际的包发布目录。
-- 使用仓库对应的包管理器预览打包结果，直接检查归档中的根 README 和文件清单。
-- 避免为了切换 README 引入脆弱的 `prepack` 文件替换脚本；只有结构方案不适用时才采用独立发布目录。
-
-能力边界：
-
-- GitHub 页面在变更推送后更新；已经发布的 npm 版本仍保留旧 README，需要发布新版本后才会变化。
-- 该 skill 不会自行发布包、升级版本、提交或推送。
 
 ## 使用方式
 

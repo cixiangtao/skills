@@ -48,6 +48,22 @@
     "should_trigger": true
   },
   {
+    "query": "这个 GitHub npm 包从仓库根目录发布，把 npm README 改成只链接 GitHub，完整文档放到 GitHub 首页，并检查 pack 结果",
+    "should_trigger": true
+  },
+  {
+    "query": "npm 上显示的是过时文档，帮我让 npm 只显示一个指向 GitHub 完整 README 的短页面",
+    "should_trigger": true
+  },
+  {
+    "query": "这个 GitHub monorepo 从 packages/core 发 npm，保留仓库根 README，只拆 packages/core 的 npm README",
+    "should_trigger": true
+  },
+  {
+    "query": "整理这个 GitHub npm 包的开源结构，但我们明确要求仓库和 npm 继续共用同一份完整 README",
+    "should_trigger": true
+  },
+  {
     "query": "修复 src/parser.ts 第 42 行的空指针错误并补一个单测",
     "should_trigger": false
   },
@@ -76,6 +92,10 @@
     "should_trigger": false
   },
   {
+    "query": "这个 GitHub npm 包只修 CI 里的 Node 版本，README 继续共用一份，不要整理文档或发布",
+    "should_trigger": false
+  },
+  {
     "query": "把依赖 lodash 升级到最新版并修复类型报错",
     "should_trigger": false
   },
@@ -93,6 +113,10 @@
   },
   {
     "query": "把版本号从 1.2.3 改成 1.2.4，先不要 tag、发布或调整 release 流程",
+    "should_trigger": false
+  },
+  {
+    "query": "这个 GitLab npm 包明确共用一份完整 README，不采用 .github/README.md",
     "should_trigger": false
   }
 ]

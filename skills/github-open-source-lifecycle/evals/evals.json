@@ -3,13 +3,13 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "这个 React 组件库已经在 GitHub 上了，帮我正规化一下：增加 GitHub Pages 预览，把预览地址同步到 GitHub 项目描述、Website 和 package.json；npm 上只保留稳定的安装与使用说明，GitHub README 放完整文档；以后发包统一走 release-it。先本地改好并验证，不要提交和 push。",
-      "expected_output": "Audits the real repository and package root, implements only local authorized surfaces, connects Pages base/output with metadata and dual README, configures repository-specific release-it gates, validates build and tarball, and stops before commit, push, deployment, or publication.",
+      "prompt": "这个 React 组件库已经在 GitHub 上了，公开文档继续使用英文，不新增翻译。帮我正规化一下：增加 GitHub Pages 预览，把预览地址同步到 GitHub 项目描述、Website 和 package.json；npm 上只保留稳定的安装与使用说明，GitHub README 放完整文档；以后发包统一走 release-it。先本地改好并验证，不要提交和 push。",
+      "expected_output": "Audits the real repository and package root, follows the explicit public-language strategy, implements only local authorized surfaces, connects Pages base/output with metadata and dual README through the internal split workflow, configures repository-specific release-it gates, validates build and tarball, and stops before commit, push, deployment, or publication.",
       "files": []
     },
     {
       "id": 2,
-      "prompt": "把这个 Python 库整理成正规的开源项目并发布 1.0.0 到 PyPI。README、License、Security、GitHub About、CI、tag 和 GitHub Release 都要完整；使用当前 pyproject.toml 的 hatchling，不要换构建工具。发布后从 PyPI 重新下载 wheel 验证。",
+      "prompt": "把这个 Python 库整理成正规的开源项目并发布 1.0.0 到 PyPI。公开文档继续使用英文，不新增翻译；README、License、Security、GitHub About、CI、tag 和 GitHub Release 都要完整；使用当前 pyproject.toml 的 hatchling，不要换构建工具。发布后从 PyPI 重新下载 wheel 验证。",
       "expected_output": "Preserves hatchling, separates universal GitHub surfaces from Python packaging, validates wheel and sdist in a fresh environment, commits/tags/publishes only as authorized, reads GitHub metadata back, and independently downloads and verifies the PyPI wheel.",
       "files": []
     },
@@ -34,7 +34,7 @@
     {
       "id": 6,
       "prompt": "只把这个仓库的 GitHub About Website 改成现有文档站地址，并同步 README 里已经过期的文档链接。检查直接相关的配置就行，不要扩展成完整开源治理改造，不要发布。",
-      "expected_output": "Inspects the canonical documentation URL and directly dependent README or package metadata, edits only authorized local or remote surfaces, validates links and remote readback as applicable, does not ask about language strategy for this mechanical link-only task, and does not audit or recommend unrelated governance, signing, release, funding, or community files.",
+      "expected_output": "Inspects the canonical documentation URL and directly dependent README or package metadata, edits only authorized local or remote surfaces, validates links and remote readback as applicable, does not ask about language strategy or enter the internal README split workflow for this mechanical link-only task, and does not audit or recommend unrelated governance, signing, release, funding, or community files.",
       "files": []
     },
     {
@@ -51,20 +51,32 @@
     },
     {
       "id": 9,
-      "prompt": "这个 Vite 插件从 GitHub 仓库根目录发布到 npm。帮我把项目整理到适合开源和发布下一版的状态，我没有特别说明 README 应该怎么组织。先本地修改和验证，不要 commit、push 或 publish。",
-      "expected_output": "Treats GitHub repository readers and npm registry readers as separate audiences by default, invokes split-npm-github-readme, moves the complete repository documentation to .github/README.md, leaves a compact absolute-link README at the package root, validates the packed README and package contents, and stops before commit, push, or publication.",
+      "prompt": "这个 GitHub 仓库从根目录发布 npm 包。帮我把 npm 页面改成只显示一个指向 GitHub 完整文档的短 README，GitHub 首页继续展示完整文档。现在文档只有英文，但我没有说明以后是否继续只维护英文；先确认会影响方案的关键选择，再修改。",
+      "expected_output": "Routes the direct README split request through github-open-source-lifecycle, inspects the existing documentation language and actual package root, and asks one scoped structured question before editing. The question separates product localization from public-document languages and confirms the primary and additional languages plus coverage of the repository and package READMEs. It does not move or rewrite either README until that strategy is resolved.",
       "files": []
     },
     {
       "id": 10,
-      "prompt": "整理这个 GitHub monorepo 的开源和 npm 发布结构。仓库根目录是产品总览，真正发布的包在 packages/core；保留根目录文档结构，先只做本地修改。",
-      "expected_output": "Identifies packages/core as the real npm package root, preserves the repository-level README instead of moving it to .github, keeps or creates the compact npm-facing README inside packages/core, uses repository.directory where appropriate, validates the actual package tarball, and makes no remote changes.",
+      "prompt": "整理这个 GitHub monorepo 的开源和 npm 发布结构。公开文档继续使用英文，不新增翻译；仓库根目录是产品总览，真正发布的包在 packages/core。保留根目录文档，只让 npm 页面显示一个指向仓库文档的短 README，先只做本地修改。",
+      "expected_output": "Uses the lifecycle skill's internal split workflow, identifies packages/core as the actual published package root, preserves the repository-level README instead of moving it to .github, creates or updates the compact npm-facing README inside packages/core, derives the absolute GitHub URL from repository metadata, uses repository.directory where appropriate, validates the packages/core tarball rather than the repository root, and makes no remote changes.",
       "files": []
     },
     {
       "id": 11,
       "prompt": "这个 GitHub npm 包只需要修一下 CI 里 Node 版本的错误。README 继续共用一份，不要顺便整理文档或发布。",
-      "expected_output": "Respects the explicit single-README decision and localized CI scope, diagnoses or changes only the Node CI issue and its direct dependencies, and does not invoke a README migration, package release, or broader lifecycle work.",
+      "expected_output": "Respects the explicit single-README decision and localized CI scope, diagnoses or changes only the Node CI issue and its direct dependencies, does not ask about the public language strategy, and does not enter the internal README split workflow, package release, or broader lifecycle work.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "这个 GitHub 仓库直接从根目录发布 npm 包。公开文档继续使用英文，不新增翻译；请让 GitHub 首页显示完整文档、npm 只显示一个指向 GitHub 的短 README，并验证实际发包内容。只做本地修改。",
+      "expected_output": "Uses github-open-source-lifecycle's internal npm/GitHub README split workflow, preserves the complete documentation in .github/README.md, adjusts links for its new location, creates a compact root README with an absolute repository link, validates the actual root package tarball and its archived README, confirms .github/README.md is not packed, and performs no commit, push, version bump, or publication.",
+      "files": []
+    },
+    {
+      "id": 13,
+      "prompt": "这个 npm 包托管在 GitLab，而且我们明确决定 npm 与仓库共用完整 README。只读检查是否需要采用 .github/README.md 方案，不要修改文件。",
+      "expected_output": "Remains read-only, identifies that GitHub README precedence does not apply to GitLab, preserves the explicit shared-README decision, does not ask about language because no public copy is being created or rewritten, does not introduce a .github/README.md layout, and explains that a dedicated publish-directory fallback would matter only if separate registry documentation is chosen later.",
       "files": []
     }
   ]
