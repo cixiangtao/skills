@@ -102,6 +102,12 @@
       "prompt": "按 GitHub 上常见的方式规范这个项目的发版：代码都走 PR，release PR 负责版本号和更新记录，合并后自动 tag 并由 Actions 发包。仓库里其他没合并的 PR 不应该阻塞，也不能把它们的代码带进发版。先只配置和验证，不要提交、改远端规则或真正发版。",
       "expected_output": "Uses the common two-gate GitHub flow: ordinary product changes reach the protected release branch only through required PR reviews and checks; a dedicated release PR starts from the current protected branch head and is constrained to declared version, release-note or changelog, lockfile, and generated release outputs; unrelated open PRs remain outside the release without blocking it; after the specific release PR merges, one Actions chain validates the merge SHA, creates the tag, builds and publishes; local tags and unverified dispatches cannot bypass the gate; local configuration and fixtures are validated while remote rules are reported as configured or unverified rather than changed or enforced.",
       "files": []
+    },
+    {
+      "id": 18,
+      "prompt": "我一个人维护这个 npm 包，现在已经要求所有代码走 PR，也有一个手工 release PR 门禁。继续优化成常见的自动化流程：机器人自动维护版本号和 CHANGELOG，我只负责合并发版 PR，之后自动 tag、创建 GitHub Release 并由 Actions 发 npm。release PR 仍必须跑现有必需 CI；先修改和验证，不要真的发布版本。",
+      "expected_output": "Chooses a low-ceremony established release-PR controller such as Release Please for the single npm package, bootstraps it from the manifest and current tag or registry version without publishing, and removes any competing manual version, changelog, or tag path. It recognizes that a release PR created with the repository GITHUB_TOKEN leaves required PR runs waiting for manual workflow approval, prefers a repository-scoped short-lived GitHub App installation token or explicitly documents a narrower fallback, and does not weaken branch protection. The same Actions release chain re-proves the merged release PR, builds and inspects the artifact before finalization, creates or verifies the tag and GitHub Release at the merge commit, publishes with trusted publishing, and supports retries without depending on a second tag-triggered workflow. Configuration validation must not merge, tag, create a Release, or publish npm.",
+      "files": []
     }
   ]
 }
