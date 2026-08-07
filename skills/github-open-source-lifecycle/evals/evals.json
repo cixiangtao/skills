@@ -3,14 +3,14 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "这个 React 组件库已经在 GitHub 上了，公开文档继续使用英文，不新增翻译。帮我正规化一下：增加 GitHub Pages 预览，把预览地址同步到 GitHub 项目描述、Website 和 package.json；npm 上只保留稳定的安装与使用说明，GitHub README 放完整文档；以后发包统一走 release-it。先本地改好并验证，不要提交和 push。",
-      "expected_output": "Audits the real repository and package root, follows the explicit public-language strategy, implements only local authorized surfaces, connects Pages base/output with metadata and dual README through the internal split workflow, configures repository-specific release-it gates, validates build and tarball, and stops before commit, push, deployment, or publication.",
+      "prompt": "这个 React 组件库已经在 GitHub 上了，公开文档继续使用英文，不新增翻译。帮我正规化一下：增加 GitHub Pages 预览，把预览地址同步到 GitHub 项目描述、Website 和 package.json；npm 上只保留稳定的安装与使用说明，GitHub README 放完整文档；以后统一由 GitHub Actions 发版，release-it 只在本地准备版本和 tag。先本地改好并验证，不要提交和 push。",
+      "expected_output": "Audits the real repository and package root, follows the explicit public-language strategy, implements only local authorized surfaces, connects Pages base/output with metadata and dual README through the internal split workflow, configures release-it only for local checks and version/tag preparation, makes one GitHub Actions entry point the npm and GitHub Release publisher, validates workflow structure, build, and tarball, and stops before commit, push, dispatch, deployment, or publication.",
       "files": []
     },
     {
       "id": 2,
       "prompt": "把这个 Python 库整理成正规的开源项目并发布 1.0.0 到 PyPI。公开文档继续使用英文，不新增翻译；README、License、Security、GitHub About、CI、tag 和 GitHub Release 都要完整；使用当前 pyproject.toml 的 hatchling，不要换构建工具。发布后从 PyPI 重新下载 wheel 验证。",
-      "expected_output": "Preserves hatchling, separates universal GitHub surfaces from Python packaging, validates wheel and sdist in a fresh environment, commits/tags/publishes only as authorized, reads GitHub metadata back, and independently downloads and verifies the PyPI wheel.",
+      "expected_output": "Preserves hatchling, separates universal GitHub surfaces from Python packaging, validates wheel and sdist in a fresh environment, uses a single GitHub Actions publisher for PyPI and GitHub Release with trusted publishing when supported, prepares or pushes refs and dispatches only as authorized, reads GitHub metadata and workflow state back, and independently downloads and verifies the PyPI wheel.",
       "files": []
     },
     {
@@ -77,6 +77,30 @@
       "id": 13,
       "prompt": "这个 npm 包托管在 GitLab，而且我们明确决定 npm 与仓库共用完整 README。只读检查是否需要采用 .github/README.md 方案，不要修改文件。",
       "expected_output": "Remains read-only, identifies that GitHub README precedence does not apply to GitLab, preserves the explicit shared-README decision, does not ask about language because no public copy is being created or rewritten, does not introduce a .github/README.md layout, and explains that a dedicated publish-directory fallback would matter only if separate registry documentation is chosen later.",
+      "files": []
+    },
+    {
+      "id": 14,
+      "prompt": "这个 npm 包现在由维护者在电脑上运行 release-it 直接发 npm、创建 GitHub Release。请把发版流程正规化：以后推送 v* tag 后只由 GitHub Actions 发布，本地 release-it 只能跑检查、更新版本并准备 tag。公开文档保持英文，先修改和验证，不要真的发版。",
+      "expected_output": "Migrates the repository to a single tag-triggered GitHub Actions publisher, removes or disables local npm upload and GitHub Release creation, retains release-it only for local quality/version/changelog/commit/tag preparation, validates tag and manifest agreement before external writes, uses minimal permissions, concurrency and trusted publishing where supported, prevents generic pushes or a second workflow from publishing, validates the workflow and package artifact, and performs no actual push, dispatch, tag publication, registry upload, or GitHub Release creation.",
+      "files": []
+    },
+    {
+      "id": 15,
+      "prompt": "这个 macOS 应用的 ZIP 和 GitHub Release 可以在 Actions 里完成，但最终商店提交必须插硬件密钥并由维护者在本机确认。请设计正式发版流程，不要为了统一自动化假装商店步骤也能在 Actions 里跑。",
+      "expected_output": "Keeps GitHub Actions as the sole publisher for automatable ZIP and GitHub Release delivery, documents the hardware-backed store submission as an exact human-only exception, defines a verified artifact handoff and prevents the manual step from duplicating Actions-owned targets, preserves approval and review as separate states, and independently verifies both public assets and store submission state.",
+      "files": []
+    },
+    {
+      "id": 16,
+      "prompt": "这个项目采用 release PR 发版。现在 2.4.0 的 release PR 还没合并，但仓库里还有几个无关的功能 PR 也开着；维护者经常忘记合并 release PR 就先打 v2.4.0 tag。请把流程改成不会绕过 PR，同时不要要求清空所有 open PR。先只修改和验证配置，不要真的合并、tag 或发版。",
+      "expected_output": "Requires only the specific 2.4.0 release PR to pass checks and reviews and merge into the intended release branch, allows unrelated PRs to remain open, prevents local or manually pushed v2.4.0 tags and unverified dispatches from publishing, lets Actions create the tag at the approved release-PR merge commit and publish through the same controlled chain, accounts for GITHUB_TOKEN event-suppression instead of relying on a second tag-triggered workflow, adds recovery checks that still prove the same merged PR, validates configuration without merging, tagging, dispatching, or publishing.",
+      "files": []
+    },
+    {
+      "id": 17,
+      "prompt": "按 GitHub 上常见的方式规范这个项目的发版：代码都走 PR，release PR 负责版本号和更新记录，合并后自动 tag 并由 Actions 发包。仓库里其他没合并的 PR 不应该阻塞，也不能把它们的代码带进发版。先只配置和验证，不要提交、改远端规则或真正发版。",
+      "expected_output": "Uses the common two-gate GitHub flow: ordinary product changes reach the protected release branch only through required PR reviews and checks; a dedicated release PR starts from the current protected branch head and is constrained to declared version, release-note or changelog, lockfile, and generated release outputs; unrelated open PRs remain outside the release without blocking it; after the specific release PR merges, one Actions chain validates the merge SHA, creates the tag, builds and publishes; local tags and unverified dispatches cannot bypass the gate; local configuration and fixtures are validated while remote rules are reported as configured or unverified rather than changed or enforced.",
       "files": []
     }
   ]

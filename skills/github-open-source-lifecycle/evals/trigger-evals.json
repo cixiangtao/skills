@@ -32,6 +32,14 @@
     "should_trigger": true
   },
   {
+    "query": "把现在维护者电脑上直接 npm publish 的流程迁移成 GitHub Actions 唯一发版入口，本地只准备版本和 tag",
+    "should_trigger": true
+  },
+  {
+    "query": "我们经常忘记合并 release PR 就先打 tag 发版，帮我把 Actions 改成必须合并对应 release PR，但不要卡住其他 open PR",
+    "should_trigger": true
+  },
+  {
     "query": "这个 Maven 多模块项目如何规范发布到中央仓库？先做 release readiness review",
     "should_trigger": true
   },

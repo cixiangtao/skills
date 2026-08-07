@@ -17,8 +17,9 @@ turning optional maturity improvements into defects.
 1. Inspect before prescribing. Derive the relevant project type, products,
    branches, tools, package roots, generated files, and public URLs from the
    repository and, when the claim requires it, current remote state.
-2. Preserve project conventions. Prefer an existing valid release, CI, docs, or
-   package strategy over replacing it with a fashionable template.
+2. Preserve project conventions unless they conflict with the single-publisher
+   release contract. Prefer an existing valid CI, docs, package, or Actions
+   strategy over replacing it with a fashionable template.
 3. Separate configuration from delivery. A workflow file is not a deployment;
    a build is not an installable package; a dry run is not a published release.
 4. Match evidence to the claim. Prove local code locally, packages from real
@@ -36,21 +37,26 @@ turning optional maturity improvements into defects.
    resolve the public language strategy before using the internal
    [npm-github-readme-split.md](references/npm-github-readme-split.md) workflow
    for layout and tarball checks.
+10. For GitHub-hosted projects, make GitHub Actions the sole formal publisher
+    for every delivery target that can be automated. Local tools may validate
+    and prepare a version commit; they may prepare a tag only in an explicitly
+    tag-driven flow without a release-PR gate. They must not upload packages,
+    create GitHub Releases, push images, or deploy production releases.
 
 ## 1. Establish intent and authorization
 
 Translate the request into a concrete finishing line. Use these boundaries:
 
-| Requested intent                        | Authorized work                                                                                       |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Analyze, review, or advise              | Read-only audit and recommendations                                                                   |
-| Standardize, add, migrate, or configure | Local edits and proportional validation                                                               |
-| Update GitHub settings or About         | Change only the named remote fields and read those fields back                                        |
-| Commit                                  | Focused commits, no push                                                                              |
-| Push or publish repository changes      | Push and verify the remote branch/workflow                                                            |
-| Deploy, go live, or publish docs        | Mutate hosting state and verify public URLs                                                           |
-| Release or publish a version            | Perform and verify only the version, ref, and delivery mutations required by the named release target |
-| Delete or retire an old public surface  | Reconfirm the exact remote target immediately before irreversible deletion                            |
+| Requested intent                        | Authorized work                                                                                  |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Analyze, review, or advise              | Read-only audit and recommendations                                                              |
+| Standardize, add, migrate, or configure | Local edits and proportional validation                                                          |
+| Update GitHub settings or About         | Change only the named remote fields and read those fields back                                   |
+| Commit                                  | Focused commits, no push                                                                         |
+| Push or publish repository changes      | Push and verify the remote branch/workflow                                                       |
+| Deploy, go live, or publish docs        | Mutate hosting state and verify public URLs                                                      |
+| Release or publish a version            | Prepare refs, trigger the authorized Actions release, and verify only the named delivery targets |
+| Delete or retire an old public surface  | Reconfirm the exact remote target immediately before irreversible deletion                       |
 
 Do not infer release authority from a request to add release tooling. Do not
 infer deletion authority from a hosting migration. Normal implementation steps
@@ -58,8 +64,8 @@ inside the authorized local scope do not require repeated confirmation.
 
 Do not infer a GitHub Release, documentation deployment, registry publication,
 or extra delivery target merely because another release surface was requested.
-Explain any necessary implied mutation, such as pushing the tag required by a
-registry release, before executing it.
+Explain any necessary implied mutation, such as pushing the tag or dispatching
+the workflow required to start the Actions release, before executing it.
 
 If the request names only one public surface, inspect its direct consistency
 dependencies. For example, adding Pages should reveal whether base paths,
@@ -225,12 +231,57 @@ treating zero-downtime overlap as universally possible.
 
 ## 5. Choose ecosystem-native release operations
 
-Read [releases.md](references/releases.md) and the matching section of
-[project-models.md](references/project-models.md).
+Read [releases.md](references/releases.md),
+[github-actions-release.md](references/github-actions-release.md), and the
+matching section of [project-models.md](references/project-models.md).
+
+Use one GitHub Actions release entry point as the formal publisher. The
+repository may use a pushed release tag, an explicit `workflow_dispatch`, or a
+release-PR merge as its trigger, but generic branch pushes must not publish a
+version accidentally. Reusable workflows may divide implementation work while
+the release entry point remains unambiguous.
+
+For repositories that already collaborate through pull requests, prefer the
+common release-PR model as the default: product changes first enter the
+protected release branch through ordinary reviewed PRs and required checks; a
+dedicated release PR is then created from the current protected branch head and
+changes only project-declared release metadata, notes, lockfiles, and generated
+release outputs. It must not collect unrelated product code from unmerged
+branches.
+
+When the repository uses release PRs, make the merge of the specific release
+PR the admission gate for that version. Other unrelated PRs may remain open.
+The release PR must pass its required checks and reviews before merge; a manual
+tag or dispatch must not bypass it. Let Actions create the release tag from the
+approved merge commit and continue publication through the same controlled
+release chain.
+
+Treat a pushed-tag or direct-dispatch publisher as an explicit alternative for
+a repository that does not use release PRs, or as a narrowly designed recovery
+path that re-proves the release-PR merge. Do not keep it as a parallel shortcut
+around the default PR gate.
+
+Keep local release preparation separate from publication. Local commands may
+run gates, update owned version and changelog files, create the release commit,
+and create or push the release tag only for an explicitly tag-driven repository
+that does not use a release-PR gate. In release-PR mode, local preparation stops
+at the PR branch and Actions owns tag creation after merge. Local commands must
+not upload to a registry or store, create a GitHub Release, publish an image, or
+deploy a production release. If release-it remains useful, configure it as a
+preparation orchestrator rather than a publisher.
+
+When an existing repository publishes locally, migrate it to the Actions-only
+contract during authorized release-tooling, release-readiness, or end-to-end
+release work. Do not expand an unrelated localized task into that migration.
+For a delivery surface that cannot be automated because it requires hardware,
+local signing identity, store UI, or another human-only boundary, document the
+exact exception and ensure it cannot duplicate an automated publication. Keep
+all automatable delivery surfaces Actions-only.
 
 Use the repository's ecosystem-native package and release conventions:
 
-- Node/npm may use release-it when it fits the existing workflow;
+- Node/npm may use release-it for local version preparation when it fits the
+  existing workflow, while Actions performs npm and GitHub publication;
 - Python should align builds and publishing with its selected backend and PyPI;
 - Rust should align Cargo metadata, crates.io, binaries, and checksums;
 - Go libraries rely on module-compatible Git tags, while CLIs may use
@@ -247,9 +298,17 @@ Every real release design should make its core contract explicit:
 
 - version source and versioning policy;
 - release branch and clean-worktree expectations;
+- release-PR identity and merge requirements when that gate is used;
+- protected-branch PR/check policy and release-PR allowed-change boundary;
 - quality/build/package gate;
 - commit and tag format;
 - intended delivery target and post-release verification.
+
+The Actions publisher should also make the trigger, ref/version validation,
+minimal permissions, environment/approval boundary, concurrency control,
+credential method, and retry behavior explicit. Prefer supported OIDC or
+trusted publishing over long-lived registry credentials. A successful local
+preparation or queued workflow is not a release.
 
 Evaluate the following only when applicable, and record "not used" or
 "not required" instead of manufacturing a gap:
@@ -262,8 +321,9 @@ Evaluate the following only when applicable, and record "not used" or
 - rollback and partial-failure recovery depth proportional to the number and
   irreversibility of delivery surfaces.
 
-Keep dependency management separate from publishing authority. A repository may
-use one tool to install/build and another supported publisher to upload.
+Keep dependency management and local preparation separate from publishing
+authority. A repository may use one tool to install/build and another inside
+Actions to upload, but no local command should be a second formal publisher.
 
 ## 6. Validate progressively
 
@@ -298,8 +358,8 @@ hosting, package/release automation, and generated artifacts. Use available
 commit-focused skills when appropriate.
 
 Push only when requested. Publishing a package or deployment often implies the
-necessary release commit/tag push, but verify that interpretation from the
-request and report each remote surface independently.
+necessary release commit/tag push or Actions dispatch, but verify that
+interpretation from the request and report each remote surface independently.
 
 Before destructive remote cleanup:
 

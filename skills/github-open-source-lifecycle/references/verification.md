@@ -66,13 +66,26 @@ smoke test pass accidentally.
 After push or publication:
 
 - read branch and tag SHAs from the remote;
-- inspect relevant Actions jobs and logs;
+- inspect the exact Actions trigger, input/ref, jobs, permissions-sensitive
+  environment boundary, and conclusions;
+- for a release-PR flow, verify that the specific version PR was merged into
+  the intended branch and that the release tag targets its approved merge
+  commit; unrelated open PRs do not affect this proof;
+- verify the release PR starts from the intended protected-branch history and
+  its diff is limited to project-declared release metadata and generated
+  outputs rather than unreviewed product code;
+- read required-PR, required-check, and relevant bypass policy from the remote
+  before claiming the release branch prevents direct pushes;
 - read GitHub About/settings back;
 - query registry version/channel metadata;
 - download the public artifact rather than reusing the local one;
 - fetch deployed URLs and validate body/content type, not just HTTP status;
 - distinguish pending review, staged rollout, draft, prerelease, and public
   availability.
+
+For an Actions-owned release, prove both workflow execution and every named
+delivery target. A green preparation job, queued approval, skipped publish job,
+or successful upload to only one of several targets is not a complete release.
 
 ## Final claim vocabulary
 

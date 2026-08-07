@@ -13,18 +13,25 @@ gap:
 | -------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | Version owner  | Manifest/file/workspace that owns the public version                                                                    |
 | Version policy | SemVer, calendar versioning, ecosystem convention, or existing policy                                                   |
-| Release source | Branch and commit expected to be released                                                                               |
-| Gate           | Checks, tests, builds, generated drift, packaging, smoke tests                                                          |
+| Release source | Protected branch, exact commit, and ordinary-PR ancestry expected to be released                                        |
+| Gate           | Protected-branch checks, constrained release PR, merge, builds, generated drift, packaging, smoke tests                 |
 | Notes          | Changelog, conventional commits, curated notes, GitHub-generated notes, or not used when release notes are not promised |
 | Git            | Release commit, tag pattern, push behavior                                                                              |
+| Authority      | GitHub Actions entry point, trigger, and ownership of each automated delivery target                                    |
 | Delivery       | Registry, GitHub Release, docs/site, image, store, update feed                                                          |
 | Prerelease     | Identifier and channel/tag behavior when prereleases exist                                                              |
 | Security       | Credential boundary plus trusted publishing, signing, provenance, or checksums when supported or required               |
 | Recovery       | Partial-failure boundary proportional to the number and irreversibility of delivery surfaces                            |
 | Verification   | Independent remote/artifact/public checks                                                                               |
 
-Adopt existing conventions unless they are broken or the user requests a
-migration. Avoid multiple tools owning the same version, changelog, or tag.
+Adopt existing conventions unless they are broken, conflict with the Actions
+single-publisher contract, or the user requests a migration. Avoid multiple
+tools owning the same version, changelog, or tag.
+
+For GitHub-hosted projects, treat local preparation and formal publication as
+different owners. Follow [github-actions-release.md](github-actions-release.md):
+GitHub Actions is the sole publisher for automatable delivery targets, while
+local tools are limited to validation and release input preparation.
 
 ## Pre-release and stable channels
 
@@ -54,12 +61,13 @@ Do not create duplicate tags/releases when retrying a partially failed flow.
 
 ## Authentication and secrets
 
-Prefer supported trusted publishing or short-lived credentials when the
-ecosystem, account, or threat model justifies the setup. A maintained manual
-publisher can still be valid for a small project. Keep real values out of
-repository files, terminal output copied into reports, workflow debug logs, and
-chat. Document variable names, source, purpose, and required permissions
-without recording secret values.
+Prefer supported trusted publishing or short-lived credentials in the Actions
+publisher. Use minimal job permissions and protected environments when the
+release risk or approval model justifies them. Do not preserve a local
+publisher merely because a project is small. Keep real values out of repository
+files, terminal output copied into reports, workflow debug logs, and chat.
+Document variable names, source, purpose, and required permissions without
+recording secret values.
 
 Browser authentication, OTP, signing hardware, notarization, organization
 approval, namespace ownership, and store review may require the user. Keep the
@@ -80,8 +88,10 @@ Classify before retrying:
 - partial remote mutation.
 
 After failure, inspect version files, index, worktree, local/remote tags,
-registry state, release state, and artifacts. Do not assume an orchestrator
-fully rolled back or that a timed-out push did nothing.
+workflow run and job state, registry state, release state, and artifacts. Do not
+assume a local orchestrator or Actions retry fully rolled back, or that a
+timed-out push or upload did nothing. Repair or retry through the configured
+Actions publisher rather than opening a local publication path.
 
 ## Post-release verification
 
