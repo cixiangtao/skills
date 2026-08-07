@@ -25,9 +25,16 @@ boundary, `files`, `exports`, types, side effects, license, repository metadata,
 and build output. For a localized task, inspect only the package roots and
 fields that can affect the requested surface.
 
-Use release-it when the repository wants an explicit local release-preparation
-orchestrator and its current workflow supports it. GitHub Actions remains the
-formal npm and GitHub publisher. A robust setup usually separates:
+Use Release Please when a single versioned package can derive release intent
+reliably from Conventional Commit squash titles. Use Changesets when a
+workspace has independently versioned packages or wants each product PR to
+declare release impact. In either model, Actions remains the formal npm
+publisher and the maintainer normally releases by merging the generated
+release PR.
+
+Use release-it only when the repository still wants an explicit local
+release-preparation orchestrator and its current workflow supports it. A robust
+local setup usually separates:
 
 - `release:prepare`: local version/changelog/commit preparation, plus a tag
   only for an explicitly tag-driven flow without a release-PR gate;
@@ -44,6 +51,13 @@ prereleases. Treat dry runs as planning evidence only.
 When release PRs are the gate, configure release-it to stop at the PR branch or
 release commit. It must not create or push the final release tag; Actions owns
 that tag after the specific release PR merges.
+
+When release-PR creation is automated, remove redundant local version/changelog
+scripts if they create a competing source of truth. Ensure the controller's
+credential can trigger the required PR checks automatically; release-PR runs
+created by the default `GITHUB_TOKEN` currently wait for explicit workflow
+approval. Prefer a short-lived, repository-scoped GitHub App installation token
+over a long-lived maintainer token.
 
 When a publishable npm package is hosted in a GitHub repository, prefer
 separate registry and repository README surfaces by default. Resolve the

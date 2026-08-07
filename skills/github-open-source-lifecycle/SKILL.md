@@ -244,10 +244,18 @@ the release entry point remains unambiguous.
 For repositories that already collaborate through pull requests, prefer the
 common release-PR model as the default: product changes first enter the
 protected release branch through ordinary reviewed PRs and required checks; a
-dedicated release PR is then created from the current protected branch head and
-changes only project-declared release metadata, notes, lockfiles, and generated
-release outputs. It must not collect unrelated product code from unmerged
-branches.
+dedicated release PR is then created and maintained by established release
+automation from the current protected branch head. It changes only
+project-declared release metadata, notes, lockfiles, and generated release
+outputs. It must not collect unrelated product code from unmerged branches.
+
+Choose the release-PR controller by project shape instead of adding manual
+ceremony under a different name. Release Please is usually the lowest-friction
+default for a single versioned product whose squash-merge titles follow
+Conventional Commits. Changesets usually fits a multi-package repository or a
+project that wants each product PR to declare its release impact explicitly.
+Preserve an equivalent working controller. Do not add release PRs to a
+deployment-only repository that has no versioned release product.
 
 When the repository uses release PRs, make the merge of the specific release
 PR the admission gate for that version. Other unrelated PRs may remain open.
@@ -255,6 +263,25 @@ The release PR must pass its required checks and reviews before merge; a manual
 tag or dispatch must not bypass it. Let Actions create the release tag from the
 approved merge commit and continue publication through the same controlled
 release chain.
+
+Account for the controller's authentication before calling this flow
+automatic. Pull requests and commits created with the repository
+`GITHUB_TOKEN` do not trigger most follow-on workflows; GitHub currently puts
+release-PR open and synchronize runs into an approval-required state. The PR
+therefore lacks unattended required CI. When those checks matter, prefer a
+repository-scoped GitHub App installation token; use a fine-grained maintainer
+token only when an App is disproportionate. Do not weaken branch protection,
+remove required checks, or ask the maintainer to touch the bot branch merely
+to compensate for this automation boundary. Read
+[github-actions-release.md](references/github-actions-release.md) for the
+controller and retry contract.
+
+For established controllers that create a GitHub Release and tag together,
+separate release-PR maintenance from release finalization when practical. Run
+the artifact gates first after the release PR merge, then let the same Actions
+chain finalize the tag and GitHub Release and publish the inspected artifacts.
+Design retries to recognize an existing correct tag, Release, or registry
+version and resume only missing delivery steps.
 
 Treat a pushed-tag or direct-dispatch publisher as an explicit alternative for
 a repository that does not use release PRs, or as a narrowly designed recovery
@@ -265,10 +292,18 @@ Keep local release preparation separate from publication. Local commands may
 run gates, update owned version and changelog files, create the release commit,
 and create or push the release tag only for an explicitly tag-driven repository
 that does not use a release-PR gate. In release-PR mode, local preparation stops
-at the PR branch and Actions owns tag creation after merge. Local commands must
+at optional checks or controller inputs; the controller owns the version and
+changelog branch, and Actions owns tag creation after merge. Local commands must
 not upload to a registry or store, create a GitHub Release, publish an image, or
 deploy a production release. If release-it remains useful, configure it as a
 preparation orchestrator rather than a publisher.
+
+When migrating an existing project, bootstrap the controller from the current
+manifest version and verify it agrees with the latest relevant tag, registry,
+and GitHub Release before enabling writes. The migration PR itself must not
+bump a public version, create a release tag, or publish. After merge, a pending
+release PR is only a proposal; publication still waits for the maintainer to
+merge that specific PR.
 
 When an existing repository publishes locally, migrate it to the Actions-only
 contract during authorized release-tooling, release-readiness, or end-to-end

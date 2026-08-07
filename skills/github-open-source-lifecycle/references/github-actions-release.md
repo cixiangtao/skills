@@ -54,6 +54,65 @@ For a repository that already uses pull requests, prefer this default chain:
 6. Independent remote, registry, artifact, consumer, and public checks verify
    the claimed release surfaces.
 
+### Automate the release PR itself
+
+Use an established controller rather than requiring a maintainer to edit the
+same version and changelog files repeatedly:
+
+- Prefer Release Please for a single versioned product when merged commit
+  titles already provide reliable Conventional Commit intent.
+- Prefer Changesets for multiple independently versioned packages or when the
+  project wants each product PR to carry an explicit release-impact file.
+- Preserve another controller that already provides the same protected-branch,
+  constrained-diff, version, notes, and merge guarantees.
+
+The controller may run after ordinary pushes to the protected branch so it can
+create or update a release PR. That broad trigger is not publication authority:
+publishing still requires proof that the controller's specific release PR was
+merged and that the final merge commit owns the proposed version.
+
+Do not call controller-created PRs operational until their required checks can
+actually run. GitHub suppresses most workflow events caused by the repository
+`GITHUB_TOKEN`. If the release PR must pass Actions checks, authenticate the
+controller with a token whose writes generate normal events:
+
+1. Prefer a GitHub App installed only on the intended repositories, with the
+   minimum contents, pull-request, and issue/label permissions the controller
+   needs.
+2. Generate a short-lived installation token inside the controller job. Keep
+   the App client ID in a repository variable and the private key in an Actions
+   secret; explicitly scope the runtime token to the current repository.
+3. Use a fine-grained maintainer token only when creating and maintaining a
+   GitHub App is disproportionate. Document ownership, repository scope,
+   expiration, and rotation.
+
+Do not solve event suppression by removing required checks, granting a broad
+branch bypass, or requiring a human to push an empty commit to the generated
+branch. If no suitable credential is configured, fail the controller clearly
+before claiming the release PR is automated.
+
+### Keep finalization retryable
+
+The simplest controller examples often create the tag and GitHub Release
+before a package build. Strengthen that sequence for a real publisher:
+
+1. On the release-PR merge commit, re-prove the PR identity, base branch,
+   allowed diff, manifest version, and current protected-branch ancestry.
+2. Build, test, pack, and inspect immutable artifacts before remote release
+   finalization.
+3. Invoke the controller's release-finalization mode, or an equivalent
+   Actions-owned step, to create or verify the tag and GitHub Release at the
+   exact merge commit.
+4. Publish the already inspected artifacts and verify every delivery target.
+5. On retry, accept an existing tag, Release, or registry version only when its
+   commit and artifact identity match, then resume the missing steps.
+
+For Release Please, this can be one workflow with two controller invocations:
+the ordinary-push path maintains release PRs without creating Releases, while
+the gated post-merge path finalizes the release without creating another PR.
+Do not rely on a tag event emitted by either invocation to start a second
+workflow.
+
 Open ordinary PRs do not block this chain. Their commits remain outside the
 protected release branch and therefore outside the release artifact until they
 pass their own merge gates. The release PR does not infer code provenance from
@@ -86,8 +145,8 @@ changelog when those notes are used.
 
 In this mode:
 
-- local preparation creates or updates the release PR branch but does not
-  create or push the release tag;
+- established automation creates or updates the release PR branch; local tools
+  are optional validation helpers and do not create or push the release tag;
 - a manually pushed tag cannot start publication;
 - a manual recovery dispatch must prove the same merged release PR and commit,
   so it cannot become a bypass;
@@ -105,9 +164,10 @@ tag even when no such ruleset is available.
 
 Do not rely on a second tag-push workflow being triggered by a tag created with
 the repository's `GITHUB_TOKEN`; GitHub suppresses most new workflow runs caused
-by that token. Keep tag creation and publication in the same release chain, or
-use an explicitly designed reusable-workflow handoff that does not depend on a
-new repository event.
+by that token. For pull-request open and synchronize events, GitHub currently
+creates approval-required runs rather than unattended CI. Keep tag creation and
+publication in the same release chain, and use a GitHub App installation token
+when an automated release PR must run required checks without separate approval.
 
 ## Separate validation from publication
 
