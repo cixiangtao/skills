@@ -6,12 +6,25 @@
 
 ## 能力总览
 
-| Skill                                                                             | 解决的问题                                                                              | 典型使用场景                                                        |
-| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [`commit-granularity`](../skills/commit-granularity/SKILL.md)                     | 按业务或技术意图拆分 Git 提交                                                           | 提交代码、拆分混合变更、检查暂存区、修正过大的提交                  |
-| [`git-commit`](../skills/git-commit/SKILL.md)                                     | 分析差异并生成带类型 emoji 的 Conventional Commit                                       | 提交代码、选择 type/scope、按意图暂存、生成 commitlint 兼容提交信息 |
-| [`github-open-source-lifecycle`](../skills/github-open-source-lifecycle/SKILL.md) | 让 GitHub 开源项目的公开界面、交付方式和维护流程保持一致，并内置 npm/GitHub README 分层 | 开源规范化、发布准备、文档拆分、托管迁移、版本发布、公开仓库体检    |
-| [`typescript`](../skills/typescript/SKILL.md)                                     | 提供 TypeScript 类型安全、代码风格、文档和性能约定                                      | 编写或评审 `.ts`、`.tsx`、`.mts` 文件，设计类型安全 API，补充 JSDoc |
+| Skill                                                                             | 解决的问题                                                                              | 典型使用场景                                                     |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [`commit-granularity`](../skills/commit-granularity/SKILL.md)                     | 按业务或技术意图拆分 Git 提交                                                           | 提交代码、拆分混合变更、检查暂存区、修正过大的提交               |
+| [`github-open-source-lifecycle`](../skills/github-open-source-lifecycle/SKILL.md) | 让 GitHub 开源项目的公开界面、交付方式和维护流程保持一致，并内置 npm/GitHub README 分层 | 开源规范化、发布准备、文档拆分、托管迁移、版本发布、公开仓库体检 |
+
+## 从 skills.sh 安装
+
+可以在 [skills.sh](https://skills.sh/cixiangtao/skills) 查看本仓库的公开 Skill，也可以通过 Skills CLI 直接选择安装：
+
+```bash
+npx skills add cixiangtao/skills
+```
+
+只安装某一个 Skill：
+
+```bash
+npx skills add cixiangtao/skills --skill commit-granularity
+npx skills add cixiangtao/skills --skill github-open-source-lifecycle
+```
 
 ## `commit-granularity`
 
@@ -29,24 +42,6 @@
 
 - 它负责保证提交颗粒度，不会把“提交代码”扩大解释为推送远端。
 - 它不会仅按文件数量拆分，也不会把无关改动为了减少提交数而强行合并。
-
-## `git-commit`
-
-根据仓库中的真实差异生成语义清晰、兼容 commitlint 的提交，并把对应 type 的 emoji 放在 subject 开头。
-
-核心能力：
-
-- 检查工作区、暂存区和仓库状态；已有暂存内容时优先分析 staged diff。
-- 从改动意图推导 type、scope 和简短描述，也允许用户显式覆盖这些字段。
-- 使用 `type(scope): emoji description` 格式，例如 `feat(auth): ✨ add passkey sign-in`，保留默认 Conventional Commit 解析结构。
-- 优先遵循仓库已有的 commitlint、Commitizen/cz 和 type-to-emoji 映射，没有项目约定时才使用内置映射。
-- 支持 breaking change 标记、正文、footer 和 issue 引用，并保持一个提交只承载一个逻辑意图。
-- 只暂存当前提交需要的文件，并在提交前排除环境变量、凭据、私钥等敏感内容。
-
-能力边界：
-
-- 不会修改 Git 配置、跳过提交钩子，也不会在没有明确授权时执行破坏性命令或强制推送。
-- 如果仓库钩子拒绝生成的提交信息，会明确报告冲突，而不是静默删除 emoji 或使用 `--no-verify`。
 
 ## `github-open-source-lifecycle`
 
@@ -70,27 +65,8 @@
 - 配置完成不等于已经部署，构建成功不等于已经发布；只有对应的公开状态验证通过后，才会声明“已上线”或“已发布”。
 - 分析请求默认只读；提交、推送、发布和删除需要用户给出对应授权。
 
-## `typescript`
-
-提供一套偏严格、可维护的 TypeScript 编写与评审约定。
-
-核心能力：
-
-- 优先使用类型推断和准确类型，减少 `any`、无意义断言以及宽泛的 `object`。
-- 为对象结构、联合类型、常量约束和预期类型错误选择更合适的 TypeScript 表达方式。
-- 倾向使用 `async`/`await`、Promise API 和安全并发，避免同步 I/O 与不必要的回调链。
-- 为导出的 API、复杂内部约束、参数语义、返回值、异常、副作用和兼容性分支补充有用的 JSDoc 或注释。
-- 通过清晰命名、解构、具名常量、公共工具复用和一致的时间快照改善可读性与可维护性。
-- 关注查询字段、循环、并发等常见性能细节，并禁止在日志中暴露 API Key 等用户隐私。
-- 在采用 LobeChat、Ant Design 与 `antd-style` 的项目中提供更具体的组件、主题、暗色模式和移动端约定。
-
-能力边界：
-
-- 注释用于保存代码和类型无法清楚表达的契约，不会复述显而易见的实现。
-- 项目已有规范和自动格式化工具优先；skill 不负责用手工格式偏好替代项目工具链。
-
 ## 使用方式
 
-将需要的 skill 目录复制到 Agent 支持的 skills 目录中。支持按描述自动触发的 Agent 会在任务命中适用场景时加载对应的 `SKILL.md`；也可以在请求中直接点名 skill。
+优先通过 Skills CLI 选择并安装所需 Skill；也可以将对应目录复制到 Agent 支持的 skills 目录中。支持按描述自动触发的 Agent 会在任务命中适用场景时加载对应的 `SKILL.md`；也可以在请求中直接点名 Skill。
 
 仓库采用显式白名单策略。新增本地 skill 不会自动进入 Git；只有同时确认其内容适合公开并更新 [`.gitignore`](../.gitignore) 白名单后，才会成为本仓库的一部分。
