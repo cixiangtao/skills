@@ -12,6 +12,9 @@
 !/.github/
 /.github/*
 !/.github/README.md
+!/.github/workflows/
+/.github/workflows/*
+!/.github/workflows/validate.yml
 
 # Enter the skill collection, but keep installed skills private by default.
 !/skills/
