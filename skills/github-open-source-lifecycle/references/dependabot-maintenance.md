@@ -5,6 +5,16 @@ multi-repository dependency automation, not for a one-off dependency bump.
 
 ## 1. Model the real maintenance surface
 
+When the request covers "all maintained repositories," enumerate the current
+authenticated owner's and explicitly in-scope organizations' repositories with
+pagination rather than relying only on local clones. Record visibility, archive
+state, fork or mirror status, write access, default branch, recent activity, and
+an explicit include, exclude, or needs-confirmation decision. Do not equate
+"not archived" with "actively maintained" when contrary evidence exists. If the
+owner, organization, or maintenance boundary cannot be derived safely, ask one
+scoped question before remote mutation. Keep local-only or inaccessible
+repositories visible as unverified instead of silently dropping them.
+
 For every maintained repository, inspect:
 
 - package manifests, lockfiles, workspace roots, and actual package directories;
@@ -22,12 +32,22 @@ Mark a repository with no supported dependency manifest or Actions workflow as
 not applicable. Do not add an empty or fictional configuration merely for
 uniformity.
 
+For large sets, keep a repository ledger with the policy branch or PR, security
+setting readback, current bot PR decisions, verification state, and failure
+reason. Apply changes in small batches or start with representative ecosystems
+when platform acceptance is still unproven. A failure in one repository must
+not hide or roll back verified results in unrelated repositories.
+
 ## 2. Separate security and routine version updates
 
 Dependabot security updates and scheduled version updates serve different
 goals. Keep security updates enabled where applicable and treat them with higher
 urgency. Cooldown settings for version updates must not be presented as delaying
 security remediation.
+
+List security-related PRs separately in the working ledger and final report so
+they are not lost inside routine grouped updates. Use the repository's security
+policy for response targets; do not invent a universal SLA.
 
 Use this low-noise baseline when the repository has no stronger established
 policy, then adapt it to the actual ecosystem:
