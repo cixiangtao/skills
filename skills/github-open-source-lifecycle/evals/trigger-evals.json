@@ -68,6 +68,14 @@
     "should_trigger": true
   },
   {
+    "query": "把我所有还在维护的 GitHub 开源项目 Dependabot 都优化成低噪声策略，安全更新优先，现有无用 PR 关闭，有用的通过",
+    "should_trigger": true
+  },
+  {
+    "query": "这个仓库 Dependabot 每周开很多 PR，帮我按实际依赖和发版门禁重新设计分组、冷却期和合并边界",
+    "should_trigger": true
+  },
+  {
     "query": "整理这个 GitHub npm 包的开源结构，但我们明确要求仓库和 npm 继续共用同一份完整 README",
     "should_trigger": true
   },
