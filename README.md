@@ -41,6 +41,12 @@ Install dependencies with `pnpm install`, then use:
 - `pnpm lint` to lint tracked JavaScript and TypeScript files with Oxlint.
 - `pnpm check` to run all read-only quality checks.
 
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a public skill. Use [SUPPORT.md](SUPPORT.md) for ordinary questions and [SECURITY.md](SECURITY.md) for sensitive reports.
+
 ## Publishing policy
 
 This repository uses an explicit allowlist in `.gitignore`. Agent state and installed skills are private by default and appear in Git only after their paths are deliberately added to the allowlist.
+
+## License
+
+[MIT](LICENSE) © 2026 cixiangtao

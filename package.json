@@ -1,6 +1,7 @@
 {
   "name": "skills",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "check": "pnpm lint && pnpm format:check",
     "format": "oxfmt",

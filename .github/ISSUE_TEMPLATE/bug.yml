@@ -1,0 +1,50 @@
+name: Skill bug
+description: Report reproducible incorrect behavior in a public skill.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill
+      options:
+        - commit-granularity
+        - github-open-source-lifecycle
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Agent and version
+      placeholder: Codex desktop, CLI, or another compatible agent
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Remove credentials, private URLs, personal paths, and proprietary data.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed credentials, private paths, proprietary data, and sensitive logs.
+          required: true
+        - label: This report does not disclose a security vulnerability.
+          required: true

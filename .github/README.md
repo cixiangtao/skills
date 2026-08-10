@@ -70,3 +70,7 @@ npx skills add cixiangtao/skills --skill github-open-source-lifecycle
 优先通过 Skills CLI 选择并安装所需 Skill；也可以将对应目录复制到 Agent 支持的 skills 目录中。支持按描述自动触发的 Agent 会在任务命中适用场景时加载对应的 `SKILL.md`；也可以在请求中直接点名 Skill。
 
 仓库采用显式白名单策略。新增本地 skill 不会自动进入 Git；只有同时确认其内容适合公开并更新 [`.gitignore`](../.gitignore) 白名单后，才会成为本仓库的一部分。
+
+## 开源协议
+
+[MIT](../LICENSE) © 2026 cixiangtao
