@@ -12,6 +12,7 @@
 !/.github/
 /.github/*
 !/.github/README.md
+!/.github/dependabot.yml
 !/.github/workflows/
 /.github/workflows/*
 !/.github/workflows/validate.yml
