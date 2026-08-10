@@ -108,6 +108,24 @@
       "prompt": "我一个人维护这个 npm 包，现在已经要求所有代码走 PR，也有一个手工 release PR 门禁。继续优化成常见的自动化流程：机器人自动维护版本号和 CHANGELOG，我只负责合并发版 PR，之后自动 tag、创建 GitHub Release 并由 Actions 发 npm。release PR 仍必须跑现有必需 CI；先修改和验证，不要真的发布版本。",
       "expected_output": "Chooses a low-ceremony established release-PR controller such as Release Please for the single npm package, bootstraps it from the manifest and current tag or registry version without publishing, and removes any competing manual version, changelog, or tag path. It recognizes that a release PR created with the repository GITHUB_TOKEN leaves required PR runs waiting for manual workflow approval, prefers a repository-scoped short-lived GitHub App installation token or explicitly documents a narrower fallback, and does not weaken branch protection. The same Actions release chain re-proves the merged release PR, builds and inspects the artifact before finalization, creates or verifies the tag and GitHub Release at the merge commit, publishes with trusted publishing, and supports retries without depending on a second tag-triggered workflow. Configuration validation must not merge, tag, create a Release, or publish npm.",
       "files": []
+    },
+    {
+      "id": 19,
+      "prompt": "把我所有还在维护的 GitHub 开源项目 Dependabot 都优化一下：降低无意义升级噪声，安全更新优先；当前没用的 Dependabot PR 关闭，有用且检查通过的合并。skill 也一起完善。可以提交、push 和改 GitHub 设置，但不要发布任何版本，也不要合并 release PR。",
+      "expected_output": "Inventories every maintained repository from current GitHub state, derives each real package ecosystem and directory from manifests, preserves unrelated worktree changes, and marks repositories with no applicable dependency surface as not applicable. It applies an ecosystem-aware low-noise baseline with monthly routine updates, cooldown, compatible minor/patch grouping, explicit major-upgrade handling, small PR limits, and separate security-update treatment. It inspects exact bot PR diffs and required checks, closes only obsolete, duplicated, out-of-policy, or repeatedly failing noise with reasons, merges only authorized useful PRs after checks pass, and leaves useful pending PRs open. It updates the lifecycle skill and evals, verifies pushed configuration and settings, and does not merge a release PR, tag, create a GitHub Release, publish a package, or claim that dependency merges released anything.",
+      "files": []
+    },
+    {
+      "id": 20,
+      "prompt": "这个 npm 项目 Dependabot 每周开十几个 PR，其中还有 major、0.x minor 和 release workflow 更新。帮我只读分析一套低噪声策略，并说明哪些能自动合并、哪些必须人工看。",
+      "expected_output": "Remains read-only, inspects the actual manifest, package root, current Dependabot configuration, bot PR history, branch protection, required checks, and release trigger. It separates security updates from scheduled version updates, proposes grouped and cooled-down compatible updates with explicit major handling and low PR limits, treats pre-1.0 minor, runtime, release-workflow, permission, and publishing changes as manual-risk categories, and requires verified bot metadata plus successful required checks for any proposed auto-merge. It explains that an ordinary dependency merge must not itself authorize a release and labels unavailable remote evidence as unverified.",
+      "files": []
+    },
+    {
+      "id": 21,
+      "prompt": "这个仓库只有文档，没有依赖清单，也没有 GitHub Actions。请把它和其他项目一样补一个 Dependabot 配置，看起来统一一点。",
+      "expected_output": "Inspects the repository, recognizes that there is no supported dependency or Actions surface, marks Dependabot as not applicable, and does not add an empty, invalid, or fictional configuration merely for visual uniformity. It explains what future manifest or workflow would make the repository eligible and makes no unrelated lifecycle changes.",
+      "files": []
     }
   ]
 }

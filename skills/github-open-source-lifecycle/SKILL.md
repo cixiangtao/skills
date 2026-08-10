@@ -1,6 +1,6 @@
 ---
 name: github-open-source-lifecycle
-description: "Audit, standardize, publish, release, and maintain GitHub open-source projects across ecosystems. Use when the user asks to make a repository 正规、规范、适合开源 or 发布就绪; review public documentation, community files, repository policy, CI, package metadata, versioning, GitHub Releases, or registry/store delivery; separate an npm package README from richer GitHub documentation, fix stale npm docs by linking to live GitHub documentation, or make npm and GitHub show different READMEs; migrate a public hosting surface; or coordinate an end-to-end release. For GitHub repositories that publish npm packages, prefer separate README surfaces after resolving the public language strategy and use the internal split workflow. For a localized request, inspect only the named surface and direct consistency dependencies. Do not use for isolated bug fixes, code/PR review, issue operations, typo-only edits, isolated CI diagnosis, non-public metadata edits, dependency/version bumps without release intent, or simple commit/push tasks."
+description: "Audit, standardize, publish, release, and maintain GitHub open-source projects across ecosystems. Use when the user asks to make a repository 正规、规范、适合开源 or 发布就绪; review public documentation, community files, repository policy, CI, package metadata, versioning, GitHub Releases, or registry/store delivery; establish or optimize repository-wide or multi-repository Dependabot governance, including low-noise grouping, security-update handling, PR triage, auto-merge boundaries, and release safety; separate an npm package README from richer GitHub documentation, fix stale npm docs by linking to live GitHub documentation, or make npm and GitHub show different READMEs; migrate a public hosting surface; or coordinate an end-to-end release. For GitHub repositories that publish npm packages, prefer separate README surfaces after resolving the public language strategy and use the internal split workflow. For a localized request, inspect only the named surface and direct consistency dependencies. Do not use for isolated bug fixes, code/PR review, issue operations, typo-only edits, isolated CI diagnosis, non-public metadata edits, a single dependency/version bump without broader maintenance or release intent, or simple commit/push tasks."
 ---
 
 # GitHub Open Source Lifecycle
@@ -42,6 +42,10 @@ turning optional maturity improvements into defects.
     and prepare a version commit; they may prepare a tag only in an explicitly
     tag-driven flow without a release-PR gate. They must not upload packages,
     create GitHub Releases, push images, or deploy production releases.
+11. Treat dependency automation as risk-managed maintenance, not a mandate to
+    accept every available version. Prioritize security fixes, group routine
+    compatible updates, keep disruptive upgrades intentional, and never let an
+    ordinary dependency PR become an implicit release authorization.
 
 ## 1. Establish intent and authorization
 
@@ -95,6 +99,9 @@ applicable remote and public state:
   published versions;
 - README, license, contribution, support, security, and relevant templates;
 - active public URLs and stale delivery paths.
+- for dependency-maintenance work, actual manifests and package roots, current
+  Dependabot configuration and security settings, branch protection, release
+  triggers, and the live history of bot PRs and required checks.
 
 Inspect social preview, funding, citation, governance, CODEOWNERS, wiki,
 projects, or similar maturity surfaces only when the user asks for them or the
@@ -195,6 +202,19 @@ actual package root, link adjustment, and packed-artifact verification.
 Preserve an explicit user or repository decision to maintain one shared README,
 and do not let this default expand an unrelated localized task into
 documentation restructuring.
+
+### Govern dependency automation
+
+For repository-wide or multi-repository dependency maintenance, read and follow
+[dependabot-maintenance.md](references/dependabot-maintenance.md). Derive each
+repository's package ecosystems and directories from its actual manifests;
+do not copy a single ecosystem template blindly. Keep scheduled version updates
+low-noise, preserve a fast path for security updates, and make major or otherwise
+disruptive upgrades explicit maintenance decisions. Before merging or closing
+existing bot PRs, inspect their exact diff, checks, compatibility risk, release
+effect, and whether the new policy prevents a closed noisy PR from immediately
+returning. A green Dependabot PR is merge-eligible evidence, not release
+authority.
 
 If the user literally asks for a site address in the GitHub description, place
 it in the description as well as the Website field. Do not reinterpret that
