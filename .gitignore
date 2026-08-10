@@ -6,6 +6,10 @@
 !/.oxfmtrc.json
 !/.oxlintrc.json
 !/README.md
+!/LICENSE
+!/CONTRIBUTING.md
+!/SECURITY.md
+!/SUPPORT.md
 !/package.json
 !/pnpm-lock.yaml
 !/scripts/
@@ -13,6 +17,12 @@
 /.github/*
 !/.github/README.md
 !/.github/dependabot.yml
+!/.github/PULL_REQUEST_TEMPLATE.md
+!/.github/ISSUE_TEMPLATE/
+/.github/ISSUE_TEMPLATE/*
+!/.github/ISSUE_TEMPLATE/bug.yml
+!/.github/ISSUE_TEMPLATE/config.yml
+!/.github/ISSUE_TEMPLATE/feature.yml
 !/.github/workflows/
 /.github/workflows/*
 !/.github/workflows/validate.yml
