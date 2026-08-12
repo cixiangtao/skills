@@ -13,6 +13,7 @@ Personal, opinionated Agent Skills for repeatable development workflows.
 ## Public skills
 
 - `skills/commit-granularity`: keep Git commits focused on one business or technical intent.
+- `skills/distinctive-writing`: write evidence-backed Chinese long-form content with a human voice and platform-aware layouts for narrative, technical, and hybrid publishing.
 - `skills/github-open-source-lifecycle`: audit, standardize, release, and maintain GitHub open-source projects across ecosystems, including npm/GitHub README separation.
 
 ## Install from skills.sh
@@ -27,6 +28,7 @@ Install one skill directly when you do not need the full collection:
 
 ```bash
 npx skills add cixiangtao/skills --skill commit-granularity
+npx skills add cixiangtao/skills --skill distinctive-writing
 npx skills add cixiangtao/skills --skill github-open-source-lifecycle
 ```
 
