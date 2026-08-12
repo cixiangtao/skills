@@ -9,6 +9,7 @@
 | Skill                                                                             | 解决的问题                                                                              | 典型使用场景                                                     |
 | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | [`commit-granularity`](../skills/commit-granularity/SKILL.md)                     | 按业务或技术意图拆分 Git 提交                                                           | 提交代码、拆分混合变更、检查暂存区、修正过大的提交               |
+| [`distinctive-writing`](../skills/distinctive-writing/SKILL.md)                   | 写出有作者感、有判断，并适配不同发布平台排版习惯的中文长文                              | 公众号、掘金、GitHub Issues、个人技术博客、文章改写与报告腔诊断  |
 | [`github-open-source-lifecycle`](../skills/github-open-source-lifecycle/SKILL.md) | 让 GitHub 开源项目的公开界面、交付方式和维护流程保持一致，并内置 npm/GitHub README 分层 | 开源规范化、发布准备、文档拆分、托管迁移、版本发布、公开仓库体检 |
 
 ## 从 skills.sh 安装
@@ -23,6 +24,7 @@ npx skills add cixiangtao/skills
 
 ```bash
 npx skills add cixiangtao/skills --skill commit-granularity
+npx skills add cixiangtao/skills --skill distinctive-writing
 npx skills add cixiangtao/skills --skill github-open-source-lifecycle
 ```
 
@@ -42,6 +44,24 @@ npx skills add cixiangtao/skills --skill github-open-source-lifecycle
 
 - 它负责保证提交颗粒度，不会把“提交代码”扩大解释为推送远端。
 - 它不会仅按文件数量拆分，也不会把无关改动为了减少提交数而强行合并。
+
+## `distinctive-writing`
+
+把事实、作者判断、阅读节奏和发布平台排版组合成一篇有活人感的中文长文。
+
+核心能力：
+
+- 从链接、PDF、brief、聊天记录、产品体验和散乱想法中提取真实素材，区分亲历、已核事实、作者判断和证据缺口。
+- 使用 HKR 选题判断与调查实验、产品体验、现象解读、工具分享、方法论分享等文章原型建立主线。
+- 保留自然的口语打断、扣主线、逐一展示、升番和 callback，同时避免编造经历、复制参考作者身份或堆砌固定口头禅。
+- 按发布平台选择公众号叙事型、技术论坛型或混合型排版，让文风与导航、段落、代码和列表各自承担不同工作。
+- 使用按排版模式运行的扫描器与四层质检检查套话、事实边界、技术支撑、作者姿态和阅读心流。
+
+能力边界：
+
+- 它服务于公开中文长文，不用于小说、普通邮件、会议纪要、合同和纯摘要。
+- 它可以补证据、类比和结构，不能替作者编造第一手经历、人物、数据、情绪和核心创意。
+- 外部写作 Skill 只作为公开方法来源；原作者身份、私人经历、固定署名、联系方式和引流尾部不会进入生成内容。
 
 ## `github-open-source-lifecycle`
 
