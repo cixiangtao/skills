@@ -1,6 +1,6 @@
 ---
 name: github-open-source-lifecycle
-description: "Audit, standardize, publish, release, and maintain GitHub open-source projects across ecosystems. Use when the user asks to make a repository 正规、规范、适合开源 or 发布就绪; review public documentation, community files, repository policy, CI, package metadata, versioning, GitHub Releases, or registry/store delivery; establish or optimize repository-wide or multi-repository Dependabot governance, including low-noise grouping, security-update handling, PR triage, auto-merge boundaries, and release safety; separate an npm package README from richer GitHub documentation, fix stale npm docs by linking to live GitHub documentation, or make npm and GitHub show different READMEs; migrate a public hosting surface; or coordinate an end-to-end release. For GitHub repositories that publish npm packages, prefer separate README surfaces after resolving the public language strategy and use the internal split workflow. For a localized request, inspect only the named surface and direct consistency dependencies. Do not use for isolated bug fixes, code/PR review, issue operations, typo-only edits, isolated CI diagnosis, non-public metadata edits, a single dependency/version bump without broader maintenance or release intent, or simple commit/push tasks."
+description: "Audit, standardize, publish, release, and maintain GitHub open-source projects across ecosystems. Use when a user asks to make a repository 正规、规范、适合开源 or 发布就绪; align public docs, community files, repository policy, CI, package metadata, versions, Releases, registries, stores, or Pages; choose a sustainable public-language strategy; split npm and GitHub READMEs; establish low-noise, security-first Dependabot governance; migrate public hosting; or coordinate an end-to-end release. For GitHub-hosted npm packages, prefer separate registry and repository READMEs after resolving the language strategy. For localized requests, inspect only the named surface and direct consistency dependencies. Do not use for isolated bug fixes, code or PR review, issue operations, typo-only edits, isolated CI diagnosis, non-public metadata edits, one dependency or version bump without broader maintenance intent, or simple commit and push tasks."
 ---
 
 # GitHub Open Source Lifecycle
@@ -117,40 +117,72 @@ Read [project-models.md](references/project-models.md) after identifying the
 products and ecosystem when broad readiness, packaging, or delivery details
 matter. Read only the relevant ecosystem sections.
 
-### Confirm the public language strategy
+### Recommend and confirm the public language strategy
 
 For broad lifecycle standardization, open-source readiness, release readiness,
-or other work that can create, substantially rewrite, or synchronize
-user-facing public content, confirm the language strategy before editing unless
-the current request or an explicit applicable project instruction already
-states it. Existing content being consistently written in one language is
-evidence of the current state, not proof that the user wants to preserve that
-strategy. This applies to repository and package READMEs, Pages or other
-documentation sites, demo copy, release notes, and contributor-facing guidance.
+or other work that can create, substantially rewrite, translate, or synchronize
+user-facing public content, resolve the language strategy before editing. Use
+this decision order:
 
-First inspect the existing language conventions and the product's actual
-localization support so the question is grounded in the project. Then ask one
-structured question:
+1. Follow an explicit choice in the current request or applicable project
+   instructions.
+2. Otherwise inspect the intended audience, ecosystem and distribution reach,
+   existing language conventions, contributor language, product localization,
+   and the maintainer's realistic translation capacity.
+3. In the absence of stronger contrary evidence, recommend **English as the
+   primary language with Simplified Chinese as a supporting language**. GitHub
+   and package registries serve a global developer audience, while a maintained
+   Chinese entry point keeps the project accessible to Chinese readers.
 
-> Should this project's public content support multiple languages? Separately,
-> does the product itself already support localization? Specify the primary
-> language, any additional languages, and which surfaces must be translated,
-> such as the repository README, package README, Pages or documentation site,
-> and release notes.
+Apply that default to the major public documentation: use English for the
+canonical repository README, package-facing README, default documentation
+route, and other single-value discovery metadata; provide clear Simplified
+Chinese companions or entry points for the repository README and the landing
+or core usage sections of a substantial documentation site. Do not duplicate
+every changelog entry, release note, API reference, policy, or contributor file
+by default. Expand Chinese coverage only when the audience and maintenance
+model justify keeping it accurate.
+
+The default is a recommendation, not a quota. Prefer Chinese as primary with an
+English overview or companion when the product, community, support channel, or
+actual users are predominantly Chinese. A maintainable single-language strategy
+is better than decorative translations that will become stale; if translation
+capacity is limited, keep English canonical and translate only stable, high-value
+entry content. Add other languages only from explicit user choice or concrete
+audience evidence.
+
+Existing content being consistently written in one language is evidence of the
+current state and migration cost, not proof that the user wants to preserve it.
+After inspecting the project, make a concrete recommendation rather than asking
+an open-ended language survey, then ask one concise question when editing depends
+on the choice:
+
+> I recommend English as the primary language and Simplified Chinese as a
+> maintained companion for the main README and core documentation entry points.
+> Single-value metadata would remain English. Should I use that strategy, or
+> should this project's audience and maintenance model use different primary,
+> supporting, or translated surfaces? Product interface localization is a
+> separate decision.
+
+If the user delegates the choice with wording such as "use the sensible
+default", adopt the English-primary, Chinese-supporting strategy and state the
+chosen scope without pausing. For a read-only audit, report the recommended
+strategy and unresolved evidence without forcing a decision unless the user
+asked for a language plan.
 
 Do not ask for a localized task that only corrects a URL, typo, metadata value,
 or build plumbing and does not change the language or editorial structure of
 public content.
 
 Treat product localization and multilingual documentation as separate choices;
-do not infer either one from the other. Apply the answer across the public
-surfaces in scope. For a multilingual Pages or documentation site, account for
-the default locale, routes, language navigation, fallback behavior, and
-canonical or alternate-language metadata. For multiple READMEs, make the
-primary entry point, language links, package-facing document, and translation
-maintenance expectations explicit. Keep single-value surfaces such as GitHub
-About understandable in the chosen primary language instead of inventing a
-multilingual format they cannot represent cleanly.
+do not infer either one from the other. For a multilingual Pages or
+documentation site, account for the default locale, routes, language navigation,
+fallback behavior, and canonical or alternate-language metadata. For multiple
+READMEs, make the canonical source, primary entry point, language links,
+package-facing document, translated scope, and synchronization expectations
+explicit. Keep single-value surfaces such as GitHub About understandable in the
+primary language instead of inventing a multilingual format they cannot
+represent cleanly.
 
 ## 3. Build the project model
 

@@ -46,13 +46,13 @@
     {
       "id": 8,
       "prompt": "把这个维护多年的 npm 项目整理成正式开源项目，并同步完善 README 和 GitHub Pages。现在 README 和 Pages 都是英文，我没有说明以后是否继续只维护英文。先确认会影响方案的关键选择，再开始修改。",
-      "expected_output": "Recognizes that consistently English existing content does not prove the user's intended future language strategy. Before editing, it asks one structured question that separates product localization from multilingual public documentation while confirming whether multiple languages are wanted, the primary and additional languages, and coverage of repository README, package README, Pages or documentation, and release notes. It identifies Pages locale routing and README language navigation as downstream consequences without assuming that product i18n and documentation languages must match.",
+      "expected_output": "Recognizes that consistently English existing content does not prove the user's intended future language strategy. Based on the global npm and GitHub audience and absent contrary evidence, it recommends English as the canonical primary language with maintained Simplified Chinese companions for the main README and core Pages entry content, keeps single-value metadata English, and asks one concise confirmation before editing. It separates product localization from documentation language, identifies Pages locale routing and README language navigation as downstream consequences, and avoids promising translation of every release note or low-value surface by default.",
       "files": []
     },
     {
       "id": 9,
       "prompt": "这个 GitHub 仓库从根目录发布 npm 包。帮我把 npm 页面改成只显示一个指向 GitHub 完整文档的短 README，GitHub 首页继续展示完整文档。现在文档只有英文，但我没有说明以后是否继续只维护英文；先确认会影响方案的关键选择，再修改。",
-      "expected_output": "Routes the direct README split request through github-open-source-lifecycle, inspects the existing documentation language and actual package root, and asks one scoped structured question before editing. The question separates product localization from public-document languages and confirms the primary and additional languages plus coverage of the repository and package READMEs. It does not move or rewrite either README until that strategy is resolved.",
+      "expected_output": "Routes the direct README split request through github-open-source-lifecycle, inspects the existing documentation language, audience evidence, and actual package root, then recommends an English canonical GitHub and npm entry with a maintained Simplified Chinese companion or link for the main documentation. It asks one concise confirmation, treats product localization separately, bounds translation to sustainable high-value content, and does not move or rewrite either README until the strategy is resolved.",
       "files": []
     },
     {
@@ -125,6 +125,24 @@
       "id": 21,
       "prompt": "这个仓库只有文档，没有依赖清单，也没有 GitHub Actions。请把它和其他项目一样补一个 Dependabot 配置，看起来统一一点。",
       "expected_output": "Inspects the repository, recognizes that there is no supported dependency or Actions surface, marks Dependabot as not applicable, and does not add an empty, invalid, or fictional configuration merely for visual uniformity. It explains what future manifest or workflow would make the repository eligible and makes no unrelated lifecycle changes.",
+      "files": []
+    },
+    {
+      "id": 22,
+      "prompt": "把这个面向全球开发者的 TypeScript 库整理成正规的 GitHub 开源项目，README 和文档站语言你按合理默认决定，不用再问我；保证中国开发者也能顺畅了解和上手。先做本地修改，不要提交。",
+      "expected_output": "Treats the delegated choice as authorization to use the sensible default without pausing: English is canonical for the repository README, package README, documentation default route, and single-value metadata, while Simplified Chinese companion entry points cover the main README and stable core getting-started content. It defines language navigation, canonical source and sustainable synchronization scope, does not duplicate every changelog, release note, API reference or policy automatically, keeps product interface localization separate, and performs only authorized local work.",
+      "files": []
+    },
+    {
+      "id": 23,
+      "prompt": "这是一个只服务中国高校老师的桌面工具，用户、客服和贡献者交流都是中文，但我希望海外开发者至少看得懂项目是什么。请先给出公开文档语言方案，再整理 README 和 Pages。",
+      "expected_output": "Uses the audience and support evidence to justify an exception to the general default: Simplified Chinese is primary for the full README and default Pages experience, with a concise maintained English overview or companion for international discovery. It explains the tradeoff, keeps product localization separate, defines language navigation and canonical ownership, asks one concise confirmation before editing, and does not force English-primary solely because the repository is on GitHub.",
+      "files": []
+    },
+    {
+      "id": 24,
+      "prompt": "只读检查这个开源库的公开文档语言是否合理。现在 README 是中文，npm 用户主要来自海外；先给建议，不要改文件，也不要让我先做决定。",
+      "expected_output": "Remains read-only, inspects audience and public-surface evidence, recommends English as the canonical README and package-facing language with a maintained Simplified Chinese companion for stable main documentation, and explains migration and maintenance tradeoffs. It does not block the audit on a language confirmation, does not treat product localization as documentation evidence, and performs no edits or remote changes.",
       "files": []
     }
   ]
