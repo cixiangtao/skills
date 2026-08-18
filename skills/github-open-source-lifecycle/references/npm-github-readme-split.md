@@ -73,11 +73,15 @@ For a root-published package:
 For a subdirectory-published package, update only that package's README unless
 the authorized scope independently includes repository documentation.
 
-Write compact README copy in the resolved primary language. If the selected
-strategy requires multiple public languages, include the agreed language entry
-points without turning the npm README back into a second full manual. Preserve
-the chosen tone and terminology; do not infer them solely from the previous
-single-language document.
+Write compact README copy in the resolved primary language. Under the default
+English-primary, Simplified-Chinese-supporting strategy, keep the npm README's
+canonical copy in English and include a clear Chinese documentation entry point
+when one is maintained. Keep the full repository documentation English-first
+with an adjacent Chinese companion for the agreed stable, high-value sections.
+Do not turn the npm README into a second full manual or promise translation
+parity that the project cannot sustain. Preserve the chosen tone and
+terminology; do not infer them solely from the previous single-language
+document.
 
 A compact single-language structure may look like:
 
