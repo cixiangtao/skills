@@ -49,8 +49,24 @@ List security-related PRs separately in the working ledger and final report so
 they are not lost inside routine grouped updates. Use the repository's security
 policy for response targets; do not invent a universal SLA.
 
-Use this low-noise baseline when the repository has no stronger established
+Use a security-only baseline when the repository has no stronger explicit
 policy, then adapt it to the actual ecosystem:
+
+- keep vulnerability alerts and Dependabot security updates enabled where the
+  ecosystem and repository are eligible;
+- disable routine version-update PRs for every configured package ecosystem by
+  setting `open-pull-requests-limit: 0`; GitHub documents this limit as applying
+  to version updates, not security-update PRs;
+- when no `dependabot.yml` exists, do not add an empty configuration solely to
+  express zero scheduled PRs; enable the repository security settings instead;
+- preserve existing ecosystem entries only when they still customize eligible
+  security PRs or clearly document the boundary for a future opt-in;
+- distinguish the bot creating a PR from any merge decision: security PRs still
+  require compatibility, required-check, and release-boundary review.
+
+Enable scheduled version-update PRs only when the maintainer explicitly asks
+for them or the repository records an equivalent policy with clear ownership
+and review capacity. For that opt-in mode:
 
 - schedule routine version updates monthly;
 - apply roughly a 14-day cooldown to avoid adopting brand-new releases
@@ -101,8 +117,9 @@ Apply and validate the durable policy before bulk triage when feasible. Then:
    remote mutation;
 3. merge only useful, in-policy updates whose required checks are green and
    whose release effect is understood;
-4. close obsolete, duplicated, superseded, out-of-policy, or repeatedly failing
-   noise with a concise reason;
+4. allow Dependabot to close routine version PRs made ineligible by a newly
+   merged zero-limit policy, then close any remaining obsolete, duplicated,
+   superseded, out-of-policy, or repeatedly failing noise with a concise reason;
 5. leave useful but unproven PRs open rather than treating pending checks as
    success.
 
@@ -113,10 +130,11 @@ separately authorized that release.
 ## 5. Verify at the matching evidence layer
 
 Validate YAML syntax and the supported Dependabot options locally. After push,
-verify the merged configuration on the default branch, read security-update
-settings back, and inspect the next Dependabot run or resulting PRs when the
-platform has processed the configuration. Confirm merged and closed PR states
-individually.
+verify every configured ecosystem has the intended version-update PR limit on
+the default branch, read security-update settings back, and inspect the next
+Dependabot processing cycle or resulting PRs. For a security-only policy,
+confirm routine version PRs close without suppressing security visibility.
+Confirm merged and closed PR states individually.
 
 Report pending platform processing as pending. A valid configuration does not
 prove that GitHub has scheduled updates, a green PR does not prove runtime
